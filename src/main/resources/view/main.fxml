@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+      <MenuBar id="menu" accessibleRole="MENU_BUTTON" prefHeight="17.0" prefWidth="738.0" stylesheets="@style.css">
+         <menus>
+            <Menu mnemonicParsing="false" text="AISN" />
+            <Menu mnemonicParsing="false" text="Эксперименты">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Список экспериментов" />
+                  <MenuItem mnemonicParsing="false" text="Мои эксперименты" />
+                  <MenuItem mnemonicParsing="false" text="Избранные эксперименты" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Объекты базы данных">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Испытуемые" />
+                  <MenuItem mnemonicParsing="false" text="Каналы" />
+                  <MenuItem mnemonicParsing="false" text="Методы обработки данных" />
+                  <MenuItem mnemonicParsing="false" text="Оборудование" />
+                  <MenuItem mnemonicParsing="false" text="Планы экспериментов" />
+                  <MenuItem mnemonicParsing="false" text="Пользователи" />
+                  <MenuItem mnemonicParsing="false" text="Расстановка датчиков" />
+                  <MenuItem mnemonicParsing="false" text="Типы экспериментов" />
+                  <MenuItem mnemonicParsing="false" text="Эмоциональное состояние" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Администрирование">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Каналы и расстановка датчиков" />
+                  <MenuItem mnemonicParsing="false" text="Оборудование в экспериментах" />
+                  <MenuItem mnemonicParsing="false" text="Каналы и методы обработки данных в экспериментах" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Пользователь">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Личные данные" />
+               </items>
+            </Menu>
+         </menus>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="440.0" prefWidth="728.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-1.0" layoutY="37.0" minHeight="50.0" minWidth="5.0" prefHeight="69.0" prefWidth="728.0" text="Главная" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="37.0">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </Label>
+      </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+    </AnchorPane>
+  </children>
+</VBox>

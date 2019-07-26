@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar id="menu" accessibleRole="MENU_BUTTON" prefHeight="31.0" prefWidth="660.0" stylesheets="@style.css" VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="AISN" />
+            <Menu mnemonicParsing="false" text="Эксперименты">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Список экспериментов" />
+                  <MenuItem mnemonicParsing="false" text="Мои эксперименты" />
+                  <MenuItem mnemonicParsing="false" text="Избранные эксперименты" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Объекты базы данных">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Испытуемые" />
+                  <MenuItem mnemonicParsing="false" text="Каналы" />
+                  <MenuItem mnemonicParsing="false" text="Методы обработки данных" />
+                  <MenuItem mnemonicParsing="false" text="Оборудование" />
+                  <MenuItem mnemonicParsing="false" text="Планы экспериментов" />
+                  <MenuItem mnemonicParsing="false" text="Пользователи" />
+                  <MenuItem mnemonicParsing="false" text="Расстановка датчиков" />
+                  <MenuItem mnemonicParsing="false" text="Типы экспериментов" />
+                  <MenuItem mnemonicParsing="false" text="Эмоциональное состояние" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Администрирование">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Каналы и расстановка датчиков" />
+                  <MenuItem mnemonicParsing="false" text="Оборудование в экспериментах" />
+                  <MenuItem mnemonicParsing="false" text="Каналы и методы обработки данных в экспериментах" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Пользователь">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Личные данные" />
+               </items>
+            </Menu>
+      </menus>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="517.0" prefWidth="732.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-1.0" layoutY="16.0" minHeight="50.0" minWidth="5.0" prefHeight="140.0" prefWidth="732.0" text="Добавление нового пользователя" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </Label>
+            <AnchorPane fx:id="photo" layoutX="-5.0" layoutY="-41.0" prefHeight="498.0" prefWidth="732.0" AnchorPane.bottomAnchor="-11.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
+               <children>
+                  <AnchorPane layoutX="144.0" layoutY="88.0" prefHeight="452.0" prefWidth="212.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="144.0" AnchorPane.rightAnchor="390.0" AnchorPane.topAnchor="88.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="29.0" text="Логин:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="30.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Пароль:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="70.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="105.0" text="Фото:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="110.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="140.0" text="Фамилия:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="150.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="175.0" text="Имя:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="190.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="210.0" text="Отчество:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="230.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="245.0" text="Комментарий:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="310.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="220.0" text="Роль:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="270.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TextField id="userLastName" fx:id="userLastName" layoutX="364.0" layoutY="317.0" prefHeight="25.0" prefWidth="351.0" promptText="Отчество" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="317.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField id="userFirstName" fx:id="userFirstName" layoutX="364.0" layoutY="277.0" prefHeight="25.0" prefWidth="351.0" promptText="Имя" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="277.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField id="userSecondName" fx:id="userSecondName" layoutX="364.0" layoutY="237.0" prefHeight="25.0" prefWidth="351.0" promptText="Фамилия" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="237.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField id="login" fx:id="login" layoutX="363.0" layoutY="117.0" maxWidth="300.0" promptText="Логин" AnchorPane.leftAnchor="363.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="117.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="password" layoutX="364.0" layoutY="157.0" prefHeight="25.0" prefWidth="351.0" promptText="Пароль" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="157.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <TextArea fx:id="aboutUser" layoutX="364.0" layoutY="400.0" prefHeight="56.0" prefWidth="351.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="400.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextArea>
+                  <ChoiceBox fx:id="chooseRole" layoutX="364.0" layoutY="364.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="364.0" />
+               </children>
+            </AnchorPane>
+            <Button id="saveUserEdit" fx:id="buttonCreateUser" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="171.0" layoutY="356.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Добавить" textAlignment="CENTER" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="260.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+      </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+    </AnchorPane>
+  </children>
+</VBox>

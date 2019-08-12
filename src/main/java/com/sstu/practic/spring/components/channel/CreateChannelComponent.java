@@ -5,14 +5,18 @@ import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
+import com.sstu.practic.spring.components.processingMethod.CreateProcessingMethodComponent;
+import com.sstu.practic.spring.components.user.CreateUserComponent;
 import com.sstu.practic.spring.data.model.TbChannels;
 import com.sstu.practic.spring.services.ChannelService;
 import com.sstu.practic.spring.services.security.SecurityContext;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CreateChannelComponent extends FxComponent {
 
     @Autowired
+    private CreateUserComponent createUserComponent;
+
+    @Autowired
     private MainComponent mainComponent;
 
+    @Autowired
+    private CreateProcessingMethodComponent createProcessingMethodComponent;
     @Autowired
     ChannelService channelService;
 
@@ -30,7 +39,9 @@ public class CreateChannelComponent extends FxComponent {
     private StageHolder stageHolder;
 
     @Autowired
-    SecurityContext securityContext;
+    private SecurityContext securityContext;
+
+
     @HandleEvent(nodeName = "buttonCreateChannel")
     public EventPair eventHandler() {
         EventPair pair = new EventPair();
@@ -41,14 +52,13 @@ public class CreateChannelComponent extends FxComponent {
             String channelName = ((TextField) scene.lookup("#channelName")).getText();
             String channelDescription = ((TextArea) scene.lookup("#channelDescription")).getText();
 
-
             channelService.addChannel(TbChannels.builder()
             .vcName(channelName)
             .vcDescription(channelDescription)
-                    .idUser(securityContext.getUser().getIdUser())
+            .idUser(securityContext.getUser().getIdUser())
             .build());
 
-            stage.setScene(mainComponent.getScene());
+            stage.setScene(createProcessingMethodComponent.getScene());
             stage.show();
         };
 
@@ -57,4 +67,5 @@ public class CreateChannelComponent extends FxComponent {
 
         return pair;
     }
+
 }

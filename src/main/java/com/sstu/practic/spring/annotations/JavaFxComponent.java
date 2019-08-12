@@ -14,6 +14,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface JavaFxComponent {
 
     String path();
-    int width() default 1000;
-    int height() default 500;
+    int width() default 1100;
+    int height() default 700;
 }

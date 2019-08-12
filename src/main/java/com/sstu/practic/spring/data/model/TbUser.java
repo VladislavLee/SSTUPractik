@@ -1,5 +1,6 @@
 package com.sstu.practic.spring.data.model;
 
+import com.sstu.practic.spring.services.security.entites.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,12 +29,12 @@ public class TbUser {
 
     private String vcLastName;
 
-    private String vcRole;
+    private Role vcRole;
 
-    private Integer iPhoto;
+    @Lob
+    @Column(columnDefinition="BLOB")
+    private byte[] iPhoto;
 
     private String vcComments;
-
-
 
 }

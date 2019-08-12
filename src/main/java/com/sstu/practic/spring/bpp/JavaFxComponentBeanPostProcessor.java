@@ -28,7 +28,8 @@ public class JavaFxComponentBeanPostProcessor implements BeanPostProcessor {
         if(bean.getClass().isAnnotationPresent(JavaFxComponent.class)){
             JavaFxComponent annotation = bean.getClass().getAnnotation(JavaFxComponent.class);
 
-            Parent root = FXMLLoader.load(Thread.currentThread().getClass().getResource(annotation.path()));
+            String path = annotation.path();
+            Parent root = FXMLLoader.load(this.getClass().getResource(path));
             Scene scene = new Scene(root, annotation.width(), annotation.height());
 
             ((FxComponent)bean).setScene(scene);

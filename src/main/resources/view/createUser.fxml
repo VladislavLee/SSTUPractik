@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar id="menu" accessibleRole="MENU_BUTTON" prefHeight="31.0" prefWidth="660.0" stylesheets="@style.css" VBox.vgrow="NEVER">
       <menus>
@@ -118,11 +118,13 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
+                  
                   <TextField id="userFirstName" fx:id="userFirstName" layoutX="364.0" layoutY="277.0" prefHeight="25.0" prefWidth="351.0" promptText="Имя" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="277.0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
+                  <Button id="certificatePath" layoutX="364.0" layoutY="197.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="221.0" text="Выбрать фото" />
                   <TextField id="userSecondName" fx:id="userSecondName" layoutX="364.0" layoutY="237.0" prefHeight="25.0" prefWidth="351.0" promptText="Фамилия" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="237.0">
                      <font>
                         <Font size="15.0" />
@@ -143,7 +145,11 @@
                         <Font size="15.0" />
                      </font>
                   </TextArea>
-                  <ChoiceBox fx:id="chooseRole" layoutX="364.0" layoutY="364.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="364.0" />
+                  <ChoiceBox fx:id="chooseRole" layoutX="364.0" layoutY="364.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="364.0">
+                     <items>
+
+                     </items>
+                  </ChoiceBox>
                </children>
             </AnchorPane>
             <Button id="saveUserEdit" fx:id="buttonCreateUser" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="171.0" layoutY="356.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Добавить" textAlignment="CENTER" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="260.0">

@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar id="menu" accessibleRole="MENU_BUTTON" prefHeight="31.0" prefWidth="660.0" stylesheets="@style.css" VBox.vgrow="NEVER">
       <menus>
@@ -69,16 +68,9 @@
             </Label>
             <AnchorPane fx:id="photo" layoutX="-5.0" layoutY="-41.0" prefHeight="498.0" prefWidth="732.0" AnchorPane.bottomAnchor="-11.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
                <children>
-                  <TableView id="listUsers" layoutX="56.0" layoutY="106.0" prefHeight="310.0" prefWidth="625.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="110.0">
+                  <TableView id="tableUsers" layoutX="56.0" layoutY="106.0" prefHeight="310.0" prefWidth="625.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="110.0">
                     <columns>
-                      <TableColumn id="login" prefWidth="75.0" text="Логин" />
-                      <TableColumn id="password" prefWidth="75.0" text="Пароль" />
-                        <TableColumn id="role" prefWidth="59.0" text="Роль" />
-                        <TableColumn id="userSecondName" prefWidth="82.0" text="Фамилия" />
-                        <TableColumn id="userFirstName" prefWidth="60.0" text="Имя" />
-                        <TableColumn id="userLastName" prefWidth="81.0" text="Отчество" />
-                        <TableColumn id="userSecondName" prefWidth="93.0" text="Комментарий" />
-                        <TableColumn id="actionButtons" prefWidth="106.0" sortable="false" />
+
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

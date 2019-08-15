@@ -26,8 +26,8 @@
          <children>
             <Button id="buttonExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="Испытумые" />
             <Button id="buttonMood" mnemonicParsing="false" prefHeight="25.0" prefWidth="172.0" text="Эмоциональные состояния" />
-            <Button id="buttonEqiupment" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Оборудование" />
-            <Button id="buttonChanell" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Каналы" />
+            <Button id="buttonEquipment" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Оборудование" />
+            <Button id="buttonChannel" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Каналы" />
             <Button id="buttonProcessingMethod" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Методы обработки данных" />
          </children>
       </HBox>

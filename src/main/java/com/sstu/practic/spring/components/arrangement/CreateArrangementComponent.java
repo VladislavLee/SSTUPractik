@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @JavaFxComponent(path = "/view/createArragement.fxml")
 public class CreateArrangementComponent extends FxComponent {
-
     @Autowired
     private StageHolder stageHolder;
     @Autowired

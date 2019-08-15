@@ -15,20 +15,20 @@
 <VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <HBox alignment="CENTER" prefHeight="36.0" prefWidth="732.0">
-         <children>
-            <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
-            <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
-            <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
-            <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
-         </children>
+          <children>
+              <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
+              <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
+              <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
+              <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
+          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="34.0" prefWidth="732.0">
-         <children>
-            <Button id="buttonExperiment" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Список экспериментов" />
-            <Button id="buttonMyExperiment" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Мои эксперименты" />
-            <Button id="buttonFavoriteExperiment" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Избранные эксперименты" />
-            <Button id="buttonExperimentDesign" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Планы экспериментов" />
-         </children>
+          <children>
+              <Button id="buttonExperiment" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Список экспериментов" />
+              <Button id="buttonMyExperiment" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Мои эксперименты" />
+              <Button id="buttonFavoriteExperiment" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Избранные эксперименты" />
+              <Button id="buttonExperimentDesign" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Планы экспериментов" />
+          </children>
       </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="517.0" prefWidth="732.0" VBox.vgrow="ALWAYS">
       <children>

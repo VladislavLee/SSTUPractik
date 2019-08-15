@@ -8,6 +8,7 @@ import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
+import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
@@ -59,6 +60,8 @@ public class ListEquipmentsComponent extends FxComponent {
     private ListEquipmentsComponent listEquipmentsComponent;
     @Autowired
     private ListChannelComponent listChannelComponent;
+    @Autowired
+    private ListMoodComponent listMoodComponent;
     @PostConstruct
     public void init() {
         TableView tableView =(TableView) scene.lookup("#listEquipment");
@@ -112,6 +115,7 @@ public class ListEquipmentsComponent extends FxComponent {
                                     btn.setOnAction(event -> {
                                         TbEquipment tbEquipment = getTableView().getItems().get(getIndex());
                                         Stage stage = stageHolder.getStage();
+                                        editEquipmentComponent.setTextField(tbEquipment);
                                         stage.setScene(editEquipmentComponent.getScene(tbEquipment));
                                         stage.show();
                                     });
@@ -163,10 +167,7 @@ public class ListEquipmentsComponent extends FxComponent {
         actionDelete.setCellFactory(createButtonDelete);
 
 
-
-
         tableView.getColumns().addAll(equipmentName, equipmentSpecification, certificatePath, certificateOutput, actionUpdate, actionDelete );
-
 
 
         Pane root = (Pane) this.scene.getRoot();
@@ -184,25 +185,6 @@ public class ListEquipmentsComponent extends FxComponent {
 
 
     //navigation
-
-
-    @HandleEvent(nodeName = "buttonEquipment")
-    public EventPair transitionToEquipment(){
-        EventPair pairEquipment = new EventPair();
-
-        EventHandler eventHandler = (x) -> {
-            Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listEquipmentsComponent.getScene());
-            stage.show();
-        };
-
-        pairEquipment.setEventHandler(eventHandler);
-        pairEquipment.setEventType(MouseEvent.MOUSE_CLICKED);
-
-        return pairEquipment;
-    }
 
     @HandleEvent(nodeName = "buttonChannel")
     public EventPair transitionToChannel(){
@@ -256,6 +238,40 @@ public class ListEquipmentsComponent extends FxComponent {
     }
 
 
+    @HandleEvent(nodeName = "buttonExperimentSubjects")
+    public EventPair transition1(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentSubject.getScene());
+            stage.show();
+        };
+
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonMood")
+    public EventPair transitionToMood(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+            stage.setScene(listMoodComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
 
 
 

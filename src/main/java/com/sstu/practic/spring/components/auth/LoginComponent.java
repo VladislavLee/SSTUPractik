@@ -16,6 +16,7 @@ import com.sstu.practic.spring.components.channel.CreateChannelComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.CreateExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListFavoriteExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.CreateExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.EditExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
@@ -93,11 +94,12 @@ public class LoginComponent extends FxComponent {
     private CreateExperimentComponent createExperimentComponent;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
     @Override
     public Scene getScene() {
         return scene;
     }
-
 
     @HandleEvent(nodeName = "buttonLogin")
     public EventPair eventHandler() {
@@ -110,7 +112,7 @@ public class LoginComponent extends FxComponent {
             PasswordField passwordField = (PasswordField) scene.lookup("#password");
 
             if(loginService.login(usernameTextField.getText(),passwordField.getText())){
-                stage.setScene(listExperimentComponent.getScene());
+                stage.setScene(mainComponent.getScene());
                 stage.show();
             }else {
                 usernameTextField.setText("");

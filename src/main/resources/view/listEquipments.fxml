@@ -24,11 +24,11 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="34.0" prefWidth="732.0">
           <children>
-              <Button id="buttonExperimentSubject" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Испытуемые" />
-              <Button id="buttonEquipment" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Оборудование" />
-              <Button id="buttonChannel" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Каналы" />
+              <Button id="buttonExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Испытуемые" />
+              <Button id="buttonMood" mnemonicParsing="false" prefHeight="25.0" prefWidth="172.0" text="Эмоциональные состояния" />
+              <Button id="buttonChannel" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Каналы" />
               <Button id="buttonProcessingMethod" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Методы обработки данных" />
-              <Button id="buttonArrangement" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Датчики" />
+              <Button id="buttonArrangement" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Датчики" />
           </children>
       </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="517.0" prefWidth="732.0" VBox.vgrow="ALWAYS">

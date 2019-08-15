@@ -5,6 +5,7 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.data.model.TbEquipment;
+import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.data.model.TbMood;
 import com.sstu.practic.spring.services.EquipmentService;
 import com.sstu.practic.spring.services.MoodService;
@@ -37,6 +38,21 @@ public class EditEquipmentComponent extends FxComponent {
         this.tbEquipment=tbEquipment;
         return scene;
     }
+
+
+    public void setTextField(TbEquipment tbEquipment) {
+        TextField equipmentName = (TextField) scene.lookup("#equipmentName");
+        TextArea equipmentSpecification = (TextArea) scene.lookup("#equipmentSpecification");
+        TextField certificateName = (TextField) scene.lookup("#certificateName");
+        TextField certificateOutput = (TextField) scene.lookup("#certificateOutput");
+
+        equipmentName.setText(tbEquipment.getVcName());
+        equipmentSpecification.setText(tbEquipment.getVcDescription());
+        certificateName.setText(tbEquipment.getVcCertificateName());
+        certificateOutput.setText(tbEquipment.getVcCertificateOutput());
+    }
+
+
 
     @HandleEvent(nodeName = "buttonEditEquipment")
     public EventPair eventHandler() {

@@ -9,6 +9,7 @@ import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
+import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbProcessingMethod;
 import com.sstu.practic.spring.services.ProcessingMethodService;
@@ -56,6 +57,8 @@ public class ListProcessingMethodsComponents extends FxComponent {
     private ListEquipmentsComponent listEquipmentsComponent;
     @Autowired
     private ListChannelComponent listChannelComponent;
+    @Autowired
+    private ListMoodComponent listMoodComponent;
 
     @PostConstruct
     public void init() {
@@ -218,14 +221,14 @@ public class ListProcessingMethodsComponents extends FxComponent {
         return pair;
     }
 
-    @HandleEvent(nodeName = "buttonProcessingMethod")
-    public EventPair transitionToProcessingMethod(){
+    @HandleEvent(nodeName = "buttonMood")
+    public EventPair transitionToMood(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            stage.setScene(listProcessingMethodsComponents.getScene());
+            stage.setScene(listMoodComponent.getScene());
             stage.show();
         };
 
@@ -243,6 +246,24 @@ public class ListProcessingMethodsComponents extends FxComponent {
             Stage stage = stageHolder.getStage();
 
             stage.setScene(listArrangementComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonExperimentSubjects")
+    public EventPair transitionToSubjects(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentSubject.getScene());
             stage.show();
         };
 

@@ -16,9 +16,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +39,7 @@ public class EditExperimentComponent extends FxComponent {
     @Autowired
     private SecurityContext securityContext;
     @Autowired
-    private MainComponent mainComponent;
+    private ListExperimentComponent listExperimentComponent;
     @Autowired
     private ExperimentSubjectService experimentSubjectService;
     @Autowired
@@ -73,16 +72,23 @@ public class EditExperimentComponent extends FxComponent {
 
 
     public void setTextField(TbExperiment tbExperiment) {
-        TextField date = (TextField) scene.lookup("#date");
+        DatePicker date = (DatePicker) scene.lookup("#date");
         TextArea experimentComments = (TextArea) scene.lookup("#experimentComments");
         TextField subjectWeight = (TextField) scene.lookup("#subjectWeight");
         TextField recordDuration = (TextField) scene.lookup("#recordDuration");
+        Slider motivationLevel = (Slider) scene.lookup("#motivationLevel");
+        Slider restLevel = (Slider) scene.lookup("#restLevel");
 
 
-        date.setText(tbExperiment.getVcDate());
+        LocalDate dateTime = tbExperiment.getVcDate();
+        motivationLevel.setValue(tbExperiment.getVcMotivationLevel());
+        restLevel.setValue(tbExperiment.getVcRestLevel());
+        date.setValue(dateTime);
         experimentComments.setText(tbExperiment.getVcDescription());
         subjectWeight.setText(tbExperiment.getVcSubjectWeight());
         recordDuration.setText(tbExperiment.getVcRecordDuration());
+
+
     }
 
     @HandleEvent(nodeName = "buttonEditExperiment")
@@ -92,31 +98,38 @@ public class EditExperimentComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            String date = ((TextField) scene.lookup("#date")).getText();
+            LocalDate date = ((DatePicker) scene.lookup("#date")).getValue();
             String experimentComments = ((TextArea) scene.lookup("#experimentComments")).getText();
             String subjectWeight = ( (TextField) scene.lookup("#subjectWeight")).getText();
             String recordDuration = ((TextField) scene.lookup("#recordDuration")).getText();
+
 
             String experimentType = (String)((ChoiceBox) scene.lookup("#experimentType")).getValue();
             String experimentSubject = (String)((ChoiceBox) scene.lookup("#experimentSubject")).getValue();
             String experimentDesign = (String)((ChoiceBox) scene.lookup("#experimentDesign")).getValue();
             String mood = (String)((ChoiceBox) scene.lookup("#mood")).getValue();
 
+            Double motivationLevel = ((Slider) scene.lookup("#motivationLevel")).getValue();
+            Double restLevel = ((Slider) scene.lookup("#restLevel")).getValue();
 
+            tbExperiment.setVcMotivationLevel(motivationLevel);
+            tbExperiment.setVcRestLevel(restLevel);
             tbExperiment.setVcDate(date);
             tbExperiment.setVcDescription(experimentComments);
             tbExperiment.setVcSubjectWeight(subjectWeight);
             tbExperiment.setVcRecordDuration(recordDuration);
-
             tbExperiment.setVcExperimentType(experimentType);
             tbExperiment.setVcExperimentSubject(experimentSubject);
             tbExperiment.setVcExperimentDesign(experimentDesign);
             tbExperiment.setVcMood(mood);
 
-
+            tbExperiment.setVcAgreement(byteAgreement);
+            tbExperiment.setVcProtocol1(byteProtocol1);
+            tbExperiment.setVcProtocol2(byteProtocol2);
+            tbExperiment.setVcProtocol3(byteProtocol3);
             experimentService.updateExperiment(tbExperiment);
 
-            stage.setScene(mainComponent.getScene());
+            stage.setScene(listExperimentComponent.getScene());
             stage.show();
         };
 
@@ -145,7 +158,7 @@ public class EditExperimentComponent extends FxComponent {
 
                     byteAgreement = bytes;
 
-                    System.out.println();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -175,7 +188,6 @@ public class EditExperimentComponent extends FxComponent {
 
                     byteProtocol1 = bytes;
 
-                    System.out.println();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -204,7 +216,6 @@ public class EditExperimentComponent extends FxComponent {
 
                     byteProtocol2 = bytes;
 
-                    System.out.println();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -234,7 +245,6 @@ public class EditExperimentComponent extends FxComponent {
 
                     byteProtocol3 = bytes;
 
-                    System.out.println();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

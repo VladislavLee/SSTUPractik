@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -22,11 +23,13 @@ public class TbExperiment {
 
     private String vcSubjectWeight;
 
-    private String vcDate;
+    private LocalDate vcDate;
 
     private String vcRecordDuration;
 
-    private String vcMotivationLevel;
+    private Double vcMotivationLevel;
+
+    private Double vcRestLevel;
 
     private String vcExperimentType;
 

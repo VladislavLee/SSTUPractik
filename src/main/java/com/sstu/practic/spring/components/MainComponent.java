@@ -12,6 +12,7 @@ import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.CreateEquipmentComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.CreateExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.CreateExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.EditExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
@@ -85,6 +86,8 @@ public class MainComponent extends FxComponent {
     private EditExperimentSubjectComponent editExperimentSubjectComponent;
     @Autowired
     private CreateExperimentComponent createExperimentComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
 
     @HandleEvent(nodeName = "buttonListUsers")
     public EventPair transitionToUsers(){
@@ -131,8 +134,7 @@ public class MainComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-
-            stage.setScene(createExperimentComponent.getScene());
+            stage.setScene(listExperimentComponent.getScene());
             stage.show();
         };
 

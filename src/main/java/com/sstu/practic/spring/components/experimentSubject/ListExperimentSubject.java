@@ -62,6 +62,8 @@ public class ListExperimentSubject extends FxComponent {
     private ListEquipmentsComponent listEquipmentsComponent;
     @Autowired
     private ListChannelComponent listChannelComponent;
+    @Autowired
+    private ListMoodComponent listMoodComponent;
 
     @PostConstruct
     public void init() {
@@ -275,6 +277,22 @@ public class ListExperimentSubject extends FxComponent {
     }
 
 
+    @HandleEvent(nodeName = "buttonMood")
+    public EventPair transitionToMood(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listMoodComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
 
 
 

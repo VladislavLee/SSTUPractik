@@ -6,6 +6,7 @@ import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.data.model.TbArrangements;
 import com.sstu.practic.spring.data.model.TbEquipment;
+import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.data.model.TbExperimentDesign;
 import com.sstu.practic.spring.services.ArrangementService;
 import com.sstu.practic.spring.services.EquipmentService;
@@ -16,6 +17,7 @@ import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +50,20 @@ public class EditDesignComponent extends FxComponent {
     public Scene getScene(TbExperimentDesign tbExperimentDesign) {
         this.tbExperimentDesign=tbExperimentDesign;
         return scene;
+    }
+
+
+    public void setTextField(TbExperimentDesign tbExperimentDesign) {
+        TextField designName = (TextField) scene.lookup("#designName");
+        TextArea designDescription = (TextArea) scene.lookup("#designDescription");
+        TextField designSampling = (TextField) scene.lookup("#designSampling");
+
+
+
+        designName.setText(tbExperimentDesign.getVcName());
+        designDescription.setText(tbExperimentDesign.getVcDescription());
+        designSampling.setText(tbExperimentDesign.getVcSampling());
+
     }
 
     @HandleEvent(nodeName = "buttonEditDesign")
@@ -85,12 +102,29 @@ public class EditDesignComponent extends FxComponent {
         return list;
     }
 
+
+
     @PostConstruct
     public void init(){
         ChoiceBox choiceBox =(ChoiceBox) scene.lookup("#designArrangement");
         ObservableList<TbArrangements> lister = getList();
         List<String> fieldNameList = lister.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
-        choiceBox.setItems(FXCollections.observableArrayList((fieldNameList)));
+        checkedIsEmptyList(fieldNameList,choiceBox);
+    }
+
+
+    private Node checkedIsEmptyList(List list, ChoiceBox choiceBox){
+        List<String> listEmpty= new ArrayList<>();
+        listEmpty.add("отсутствуют значения");
+
+        if (list.isEmpty()) {
+            choiceBox.setItems(FXCollections.observableArrayList((listEmpty)));
+            choiceBox.setValue(listEmpty.get(0));
+        } else {
+            choiceBox.setItems(FXCollections.observableArrayList((list)));
+            choiceBox.setValue(list.get(0));
+        }
+        return choiceBox;
     }
 
 }

@@ -14,9 +14,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,10 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@JavaFxComponent(path = "/view/createExperiments.fxml")
+@JavaFxComponent(path = "/view/createExperiment.fxml")
 public class CreateExperimentComponent extends FxComponent {
     @Autowired
     private StageHolder stageHolder;
@@ -65,7 +66,7 @@ public class CreateExperimentComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            String date = ((TextField) scene.lookup("#date")).getText();
+            LocalDate date = ((DatePicker) scene.lookup("#date")).getValue();
             String experimentComments = ((TextArea) scene.lookup("#experimentComments")).getText();
             String subjectWeight = ( (TextField) scene.lookup("#subjectWeight")).getText();
             String recordDuration = ((TextField) scene.lookup("#recordDuration")).getText();
@@ -74,6 +75,9 @@ public class CreateExperimentComponent extends FxComponent {
             String experimentSubject = (String)((ChoiceBox) scene.lookup("#experimentSubject")).getValue();
             String experimentDesign = (String)((ChoiceBox) scene.lookup("#experimentDesign")).getValue();
             String mood = (String)((ChoiceBox) scene.lookup("#mood")).getValue();
+
+            Double motivationLevel = ((Slider) scene.lookup("#motivationLevel")).getValue();
+            Double restLevel = ((Slider) scene.lookup("#restLevel")).getValue();
 
             experimentService.addExperiment(TbExperiment.builder()
                     .vcDate(date)
@@ -84,6 +88,8 @@ public class CreateExperimentComponent extends FxComponent {
                     .vcExperimentSubject(experimentSubject)
                     .vcExperimentDesign(experimentDesign)
                     .vcMood(mood)
+                    .vcMotivationLevel(motivationLevel)
+                    .vcRestLevel(restLevel)
                     .vcAgreement(byteAgreement)
                     .vcProtocol1(byteProtocol1)
                     .vcProtocol2(byteProtocol2)
@@ -248,26 +254,42 @@ public class CreateExperimentComponent extends FxComponent {
     }
 
 
+
     @PostConstruct
     public void init(){
         ChoiceBox choiceBox =(ChoiceBox) scene.lookup("#experimentType");
         ObservableList<TbExperimentType> experimentTypeList = getExperimentTypeList();
         List<String> fieldNameList = experimentTypeList.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
-        choiceBox.setItems(FXCollections.observableArrayList((fieldNameList)));
+        checkedIsEmptyList(fieldNameList,choiceBox);
 
         ChoiceBox choiceBox2 =(ChoiceBox) scene.lookup("#experimentSubject");
         ObservableList<TbExperimentSubject> experimentSubjects = getExperimentSubjectList();
         List<String> fieldNameList2 = experimentSubjects.stream().map(urEntity -> urEntity.getVcFirstName()).collect(Collectors.toList());
-        choiceBox2.setItems(FXCollections.observableArrayList((fieldNameList2)));
+        checkedIsEmptyList(fieldNameList2,choiceBox2);
 
         ChoiceBox choiceBox3 =(ChoiceBox) scene.lookup("#experimentDesign");
         ObservableList<TbExperimentDesign> experimentDesigns = getExperimentDesignList();
         List<String> fieldNameList3 = experimentDesigns.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
-        choiceBox3.setItems(FXCollections.observableArrayList((fieldNameList3)));
+        checkedIsEmptyList(fieldNameList3, choiceBox3);
 
         ChoiceBox choiceBox4 =(ChoiceBox) scene.lookup("#mood");
         ObservableList<TbMood> moods = getMoodList();
         List<String> fieldNameList4 = moods.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
-        choiceBox4.setItems(FXCollections.observableArrayList((fieldNameList4)));
+        checkedIsEmptyList(fieldNameList4, choiceBox4);
+    }
+
+
+    private Node checkedIsEmptyList(List list, ChoiceBox choiceBox){
+        List<String> listEmpty= new ArrayList<>();
+        listEmpty.add("отсутствуют значения");
+
+        if (list.isEmpty()) {
+            choiceBox.setItems(FXCollections.observableArrayList((listEmpty)));
+            choiceBox.setValue(listEmpty.get(0));
+        } else {
+            choiceBox.setItems(FXCollections.observableArrayList((list)));
+            choiceBox.setValue(list.get(0));
+        }
+        return choiceBox;
     }
 }

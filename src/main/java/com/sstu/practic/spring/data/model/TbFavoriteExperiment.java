@@ -19,6 +19,6 @@ public class TbFavoriteExperiment {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer idFavoriteExperiment;
 
-    @OneToMany
-    private Set<TbExperiment> tbExperiment;
+    @OneToOne
+    private TbExperiment tbExperiment;
 }

@@ -16,6 +16,7 @@ import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.services.EquipmentService;
 import com.sstu.practic.spring.services.ExperimentService;
+import com.sstu.practic.spring.services.FavoriteExperimentService;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -62,7 +63,8 @@ public class ListExperimentComponent extends FxComponent{
     private ListExperimentSubject listExperimentSubject;
     @Autowired
     private ListExperimentTypeComponent listExperimentTypeComponent;
-
+    @Autowired
+    private FavoriteExperimentService favoriteExperimentService;
 
     @PostConstruct
     public void init() {
@@ -84,6 +86,8 @@ public class ListExperimentComponent extends FxComponent{
                 = new TableColumn<TbExperiment, String>("Вес испытуемого");
         TableColumn< TbExperiment, String> experimentComments
                 = new TableColumn<TbExperiment, String>("Коментарии");
+        TableColumn actionAddFavorite
+                = new TableColumn("AddFavorite");
         TableColumn actionUpdate
                 = new TableColumn<>("Update");
         TableColumn actionDelete
@@ -91,7 +95,7 @@ public class ListExperimentComponent extends FxComponent{
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
-
+        actionAddFavorite.setSortable(false);
 
         experimentType.setCellValueFactory(new PropertyValueFactory<>("vcExperimentType"));
         experimentSubject.setCellValueFactory(new PropertyValueFactory<>("vcExperimentSubject"));
@@ -103,10 +107,13 @@ public class ListExperimentComponent extends FxComponent{
         experimentComments.setCellValueFactory(new PropertyValueFactory<>("vcDescription"));
         actionUpdate.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         actionDelete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        actionAddFavorite.setCellFactory(new PropertyValueFactory<>(""));
 
 
         ObservableList<TbExperiment> list = getList();
         tableView.setItems(list);
+
+
 
         Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>> cellFactory
                 =
@@ -178,15 +185,49 @@ public class ListExperimentComponent extends FxComponent{
                 };
 
 
+        Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>> createButtonAddFavorite
+                =
+                new Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<TbExperiment, String> param) {
+                        final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
 
+                            final Button btn = new Button("addFavorite");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setId("addFavorite");
+                                    btn.setOnAction(event -> {
+                                        TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
+                                        favoriteExperimentService.addFavoriteExperiment(tbExperiment);
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+
+
+
+
+        actionAddFavorite.setCellFactory(createButtonAddFavorite);
         actionUpdate.setCellFactory(cellFactory);
         actionDelete.setCellFactory(createButtonDelete);
 
 
 
         tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, recordDuration, subjectWeight,
-                                        experimentComments, actionUpdate, actionDelete );
-
+                                        experimentComments, actionAddFavorite, actionUpdate, actionDelete );
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));

@@ -41,7 +41,7 @@
             </Label>
             <AnchorPane fx:id="photo" layoutX="-5.0" layoutY="-1.0" prefHeight="486.0" prefWidth="732.0" AnchorPane.bottomAnchor="-11.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-1.0">
                <children>
-                  <TableView id="listExperiment" editable="true" layoutX="56.0" layoutY="106.0" prefHeight="298.0" prefWidth="632.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0" >
+                  <TableView id="listFavoriteExperiment" editable="true" layoutX="56.0" layoutY="106.0" prefHeight="298.0" prefWidth="632.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0" >
                      <columns>
                         <!--                      <TableColumn id="experimentTypeName" prefWidth="146.0" text="Название" />-->
                         <!--                      <TableColumn id="experimentTypeDescription" prefWidth="134.0" text="Описание" />-->

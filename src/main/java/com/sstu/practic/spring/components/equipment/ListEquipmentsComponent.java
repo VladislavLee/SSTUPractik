@@ -13,7 +13,6 @@ import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodC
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbEquipment;
-import com.sstu.practic.spring.data.model.TbMood;
 import com.sstu.practic.spring.services.EquipmentService;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
@@ -62,6 +61,8 @@ public class ListEquipmentsComponent extends FxComponent {
     private ListChannelComponent listChannelComponent;
     @Autowired
     private ListMoodComponent listMoodComponent;
+    @Autowired
+    private CreateEquipmentComponent createEquipmentComponent;
     @PostConstruct
     public void init() {
         TableView tableView =(TableView) scene.lookup("#listEquipment");
@@ -182,6 +183,22 @@ public class ListEquipmentsComponent extends FxComponent {
         return list;
     }
 
+
+    @HandleEvent(nodeName = "createEquipment")
+    public EventPair createEquipment(){
+        EventPair pair = new EventPair();
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(createEquipmentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
 
 
     //navigation
@@ -324,7 +341,6 @@ public class ListEquipmentsComponent extends FxComponent {
             stage.setScene(listDesignComponent.getScene());
             stage.show();
         };
-
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);
 

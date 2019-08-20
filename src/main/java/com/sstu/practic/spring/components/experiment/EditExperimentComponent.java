@@ -69,8 +69,6 @@ public class EditExperimentComponent extends FxComponent {
     }
 
 
-
-
     public void setTextField(TbExperiment tbExperiment) {
         DatePicker date = (DatePicker) scene.lookup("#date");
         TextArea experimentComments = (TextArea) scene.lookup("#experimentComments");
@@ -79,7 +77,6 @@ public class EditExperimentComponent extends FxComponent {
         Slider motivationLevel = (Slider) scene.lookup("#motivationLevel");
         Slider restLevel = (Slider) scene.lookup("#restLevel");
 
-
         LocalDate dateTime = tbExperiment.getVcDate();
         motivationLevel.setValue(tbExperiment.getVcMotivationLevel());
         restLevel.setValue(tbExperiment.getVcRestLevel());
@@ -87,8 +84,6 @@ public class EditExperimentComponent extends FxComponent {
         experimentComments.setText(tbExperiment.getVcDescription());
         subjectWeight.setText(tbExperiment.getVcSubjectWeight());
         recordDuration.setText(tbExperiment.getVcRecordDuration());
-
-
     }
 
     @HandleEvent(nodeName = "buttonEditExperiment")

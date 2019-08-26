@@ -13,16 +13,15 @@ import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodC
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbExperimentType;
-import com.sstu.practic.spring.data.model.TbMood;
 import com.sstu.practic.spring.services.ExperimentService;
 import com.sstu.practic.spring.services.ExperimentTypeService;
-import com.sstu.practic.spring.services.MoodService;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -67,11 +66,12 @@ public class ListExperimentTypeComponent extends FxComponent {
     private ListExperimentTypeComponent listExperimentTypeComponent;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private CreateExperimentTypeComponent createExperimentTypeComponent;
 
 
-
-    @PostConstruct
-    public void init() {
+    @Override
+    public Scene getScene(){
         TableView tableView =(TableView) scene.lookup("#listExperimentType");
 
         TableColumn<TbExperimentType, String> experimentTypeName
@@ -114,6 +114,7 @@ public class ListExperimentTypeComponent extends FxComponent {
                                     btn.setId("Update");
                                     btn.setOnAction(event -> {
                                         TbExperimentType tbExperimentType = getTableView().getItems().get(getIndex());
+                                        editExperimentTypeComponent.setTextField(tbExperimentType);
                                         Stage stage = stageHolder.getStage();
                                         stage.setScene(editExperimentTypeComponent.getScene(tbExperimentType));
                                         stage.show();
@@ -170,9 +171,8 @@ public class ListExperimentTypeComponent extends FxComponent {
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
-
+        return this.scene;
     }
 
     private ObservableList<TbExperimentType> getList() {
@@ -180,6 +180,34 @@ public class ListExperimentTypeComponent extends FxComponent {
         ObservableList<TbExperimentType> list = FXCollections.observableArrayList(experimentTypes);
         return list;
     }
+
+
+    @HandleEvent(nodeName = "createExperimentType")
+    public EventPair createExperimentType(){
+        EventPair pair = new EventPair();
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(createExperimentTypeComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -196,14 +224,11 @@ public class ListExperimentTypeComponent extends FxComponent {
             stage.show();
         };
 
-
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);
 
         return pair;
     }
-
-
 
 
 

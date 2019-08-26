@@ -21,7 +21,6 @@ public class FavoriteExperimentService {
         favoriteExperimentRepository.save(convert(tbExperiment));
     }
 
-
     private TbFavoriteExperiment convert(TbExperiment tbExperiment){
         TbFavoriteExperiment tbFavoriteExperiment = new TbFavoriteExperiment();
         tbFavoriteExperiment.setTbExperiment(tbExperiment);
@@ -36,10 +35,7 @@ public class FavoriteExperimentService {
         favoriteExperimentRepository.deleteById(idFavoriteExperiment);
     }
 
-
-    public void deleteFavorite(TbFavoriteExperiment tbFavoriteExperiment){
-        favoriteExperimentRepository.delete(tbFavoriteExperiment);
+    public void deleteFavoriteByExperiment(TbExperiment tbExperiment){
+        favoriteExperimentRepository.deleteByTbExperiment(tbExperiment);
     }
-
-
 }

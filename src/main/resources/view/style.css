@@ -1,9 +1,10 @@
 .background {
-    -fx-background-size: 100%;
+    /*-fx-background-image: url(fon1.jpg) repeat-y;*/
+	-fx-background-size: 100%;
 }
-#menu{
-    -fx-background-color: #adaba0;
+.menu {
+	-fx-background-color: #a5a5a5;
+	-fx-border-color: #2c3136;
+	-fx-text-fill: white;
 }
-
-
 

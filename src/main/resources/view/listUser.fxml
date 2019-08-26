@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-          <children>
-              <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
-              <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
-              <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
-              <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
-          </children>
+      <HBox prefHeight="27.0" prefWidth="500.0">
+         <children>
+            <Button id="buttonMain" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Главная" />
+            <Button id="buttonListExperiments" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Эксперименты" />
+            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Объекты БД" textFill="WHITE" />
+            <Button id="buttonListUsers" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Пользователи" textFill="WHITE" />
+            <HBox blendMode="MULTIPLY" minWidth="130.0" prefHeight="25.0" prefWidth="1000.0" styleClass="menu" />
+         </children>
       </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="517.0" prefWidth="732.0" VBox.vgrow="ALWAYS">
       <children>
@@ -65,6 +65,15 @@
                         <ImageView fitHeight="25.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@icons/delete.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button id="editUserByUser" fx:id="buttonEdit1" blendMode="MULTIPLY" layoutX="50.0" layoutY="76.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="218.0" text="Редактировать личные данные">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/edit.png" />
                            </image>
                         </ImageView>
                      </graphic>

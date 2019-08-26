@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@JavaFxComponent(path = "/view/mainMenu.fxml")
+@JavaFxComponent(path = "/view/oldPages/menu.fxml")
 public class MainComponent extends FxComponent {
     @Autowired
     private CreateProcessingMethodComponent createProcessingMethodComponent;
@@ -144,7 +144,23 @@ public class MainComponent extends FxComponent {
         return pair;
     }
 
+    @HandleEvent(nodeName = "buttonMain")
+    public EventPair transitionToMain(){
+        EventPair pair = new EventPair();
 
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(mainComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
 
 
 }

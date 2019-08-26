@@ -4,6 +4,8 @@ import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.data.model.TbUser;
 import com.sstu.practic.spring.data.repositories.UserRepository;
 import com.sstu.practic.spring.services.UserService;
@@ -23,6 +25,7 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.List;
 
 @JavaFxComponent(path = "/view/createUser.fxml")
 public class CreateUserComponent extends FxComponent {
@@ -36,9 +39,19 @@ public class CreateUserComponent extends FxComponent {
     private UserRepository userRepository;
     @Autowired
     private SecurityContext securityContext;
+    @Autowired
+    private ListUserComponent listUserComponent;
+    @Autowired
+    private ListExperimentSubject listExperimentSubject;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
 
     private byte[] bytePhoto;
 
+    @Override
+    public List<Role> getRole(){
+        return Arrays.asList(Role.ADMIN);
+    }
 
     @HandleEvent(nodeName = "saveUserEdit")
     public EventPair eventHandler() {
@@ -88,14 +101,21 @@ public class CreateUserComponent extends FxComponent {
                 File file = fileChooser.showOpenDialog(stageHolder.getStage());
                 byte[] bytes;
 
+
                 try(FileInputStream fileInputStream = new FileInputStream(file)) {
                     bytes = new byte[fileInputStream.available()];
 
                     fileInputStream.read(bytes);
                     fileInputStream.close();
 
+
                     bytePhoto = bytes;
 
+
+
+
+
+//                    запись файлы из бд
 //                    FileOutputStream fileOutputStream = new FileOutputStream("./2.jpg");
 //                    fileOutputStream.write(userRepository.findByVcLoginAndVcPassword("user","111").get().getIPhoto());
 //                    fileOutputStream.close();
@@ -113,6 +133,79 @@ public class CreateUserComponent extends FxComponent {
     public void init(){
         ChoiceBox choiceBox =(ChoiceBox) scene.lookup("#chooseRole");
         choiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Role.ADMIN,Role.EXPERIMENTATOR, Role.USER)));
+        choiceBox.setValue(Role.ADMIN);
+    }
 
+
+    @HandleEvent(nodeName = "buttonListExperimentSubjects")
+    public EventPair transitionToExperimentSubjects(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listExperimentSubject.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonListExperiments")
+    public EventPair transitionToListExperiments(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+    @HandleEvent(nodeName = "buttonMain")
+    public EventPair transitionToMain(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(mainComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonListUsers")
+    public EventPair transitionToUsers(){
+        EventPair pair = new EventPair();
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listUserComponent.getScene());
+            stage.show();
+        };
+
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
     }
 }

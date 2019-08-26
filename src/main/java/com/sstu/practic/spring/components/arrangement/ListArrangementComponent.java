@@ -4,24 +4,23 @@ import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
-import com.sstu.practic.spring.components.channel.EditChannelComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbArrangements;
-import com.sstu.practic.spring.data.model.TbChannels;
 import com.sstu.practic.spring.services.ArrangementService;
-import com.sstu.practic.spring.services.ChannelService;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -62,9 +61,14 @@ public class ListArrangementComponent extends FxComponent {
     private ListEquipmentsComponent listEquipmentsComponent;
     @Autowired
     private ListMoodComponent listMoodComponent;
+    @Autowired
+    private CreateArrangementComponent createArrangementComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
 
-    @PostConstruct
-    public void init() {
+
+    @Override
+    public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listArrangement");
         TableColumn<TbArrangements, String> channelName
                 = new TableColumn<TbArrangements, String>("Название");
@@ -107,6 +111,7 @@ public class ListArrangementComponent extends FxComponent {
                                     btn.setId("Update");
                                     btn.setOnAction(event -> {
                                         TbArrangements tbArrangements = getTableView().getItems().get(getIndex());
+                                        editArrangementComponent.setTextField(tbArrangements);
                                         Stage stage = stageHolder.getStage();
                                         stage.setScene(editArrangementComponent.getScene(tbArrangements));
                                         stage.show();
@@ -166,8 +171,8 @@ public class ListArrangementComponent extends FxComponent {
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
+        return this.scene;
     }
 
     private ObservableList<TbArrangements> getList() {
@@ -178,25 +183,16 @@ public class ListArrangementComponent extends FxComponent {
 
 
 
-
-
-
-
-
-    //navigation
-
-
-    @HandleEvent(nodeName = "buttonProcessingMethod")
-    public EventPair transitionToProcessingMethod(){
+    @HandleEvent(nodeName = "createArrangement")
+    public EventPair createArrangement(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            stage.setScene(listProcessingMethodsComponents.getScene());
+            stage.setScene(createArrangementComponent.getScene());
             stage.show();
         };
-
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);
 
@@ -204,76 +200,12 @@ public class ListArrangementComponent extends FxComponent {
     }
 
 
-    @HandleEvent(nodeName = "buttonEquipment")
-    public EventPair transitionToEquipment(){
-        EventPair pair = new EventPair();
-
-        EventHandler eventHandler = (x) -> {
-            Stage stage = stageHolder.getStage();
-
-            stage.setScene(listEquipmentsComponent.getScene());
-            stage.show();
-        };
-
-        pair.setEventHandler(eventHandler);
-        pair.setEventType(MouseEvent.MOUSE_CLICKED);
-
-        return pair;
-    }
-
-    @HandleEvent(nodeName = "buttonChannel")
-    public EventPair transitionToArrangement(){
-        EventPair pair = new EventPair();
-
-        EventHandler eventHandler = (x) -> {
-            Stage stage = stageHolder.getStage();
-
-            stage.setScene(listChannelComponent.getScene());
-            stage.show();
-        };
-
-        pair.setEventHandler(eventHandler);
-        pair.setEventType(MouseEvent.MOUSE_CLICKED);
-
-        return pair;
-    }
 
 
-    @HandleEvent(nodeName = "buttonExperimentSubjects")
-    public EventPair transition1(){
-        EventPair pair = new EventPair();
-
-        EventHandler eventHandler = (x) -> {
-            Stage stage = stageHolder.getStage();
 
 
-            stage.setScene(listExperimentSubject.getScene());
-            stage.show();
-        };
-
-
-        pair.setEventHandler(eventHandler);
-        pair.setEventType(MouseEvent.MOUSE_CLICKED);
-
-        return pair;
-    }
-
-    @HandleEvent(nodeName = "buttonMood")
-    public EventPair transitionToMood(){
-        EventPair pair = new EventPair();
-
-        EventHandler eventHandler = (x) -> {
-            Stage stage = stageHolder.getStage();
-            stage.setScene(listMoodComponent.getScene());
-            stage.show();
-        };
-
-        pair.setEventHandler(eventHandler);
-        pair.setEventType(MouseEvent.MOUSE_CLICKED);
-
-        return pair;
-    }
-
+//
+//    navigation
 
 
     @HandleEvent(nodeName = "buttonListUsers")
@@ -314,15 +246,17 @@ public class ListArrangementComponent extends FxComponent {
         return pair;
     }
 
-    @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair eventPair3(){
+
+
+    @HandleEvent(nodeName = "buttonExperimentSubjects")
+    public EventPair transitionToSubjects(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
 
-            stage.setScene(listDesignComponent.getScene());
+            stage.setScene(listExperimentSubject.getScene());
             stage.show();
         };
 
@@ -331,5 +265,107 @@ public class ListArrangementComponent extends FxComponent {
 
         return pair;
     }
+
+    @HandleEvent(nodeName = "buttonListExperiments")
+    public EventPair transitionToListExperiments(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonMain")
+    public EventPair transitionToMain(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(mainComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+    @HandleEvent(nodeName = "buttonProcessingMethod")
+    public EventPair transitionToProcessingMethod(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listProcessingMethodsComponents.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+    @HandleEvent(nodeName = "buttonEquipment")
+    public EventPair transitionToEquipment(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listEquipmentsComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonChannel")
+    public EventPair transitionToChannel(){
+        EventPair pair = new EventPair();
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+            stage.setScene(listChannelComponent.getScene());
+            stage.show();
+        };
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonMood")
+    public EventPair transitionToMood(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+            stage.setScene(listMoodComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
 
 }

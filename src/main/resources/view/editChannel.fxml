@@ -12,22 +12,18 @@
 
 <VBox prefHeight="569.0" prefWidth="744.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="732.0">
-          <children>
-              <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
-              <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
-              <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
-              <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
-          </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="732.0">
-          <children>
-              <Button id="buttonExperimentSubject" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Испытуемые" />
-              <Button id="buttonEquipment" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Оборудование" />
-              <Button id="buttonChannel" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Каналы" />
-              <Button id="buttonProcessingMethod" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Методы обработки данных" />
-              <Button id="buttonArrangement" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Датчики" />
-          </children>
+      <HBox prefHeight="8.0" prefWidth="744.0">
+         <children>
+            <Button id="buttonMain" blendMode="MULTIPLY" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="menu" text="Главная" />
+            <Button id="buttonListExperiments" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Эксперименты" />
+            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Объекты БД" />
+            <Button id="buttonListUsers" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Пользователи" />
+            <Button id="buttonExperimentSubject" blendMode="MULTIPLY" minWidth="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Испытуемые" />
+            <Button id="buttonEquipment" blendMode="MULTIPLY" minWidth="105.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Оборудование" />
+            <Button id="buttonChannel" blendMode="MULTIPLY" minWidth="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="menu" text="Каналы" />
+            <Button id="buttonProcessingMethod" blendMode="MULTIPLY" minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Методы обработки данных" />
+            <Button id="buttonArrangement" blendMode="MULTIPLY" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="menu" text="Датчики" />
+         </children>
       </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="540.0" prefWidth="744.0" VBox.vgrow="ALWAYS">
       <children>
@@ -39,7 +35,7 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <AnchorPane layoutX="-5.0" layoutY="-41.0" prefHeight="484.0" prefWidth="744.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
+            <AnchorPane layoutX="-5.0" layoutY="2.0" prefHeight="394.0" prefWidth="744.0" AnchorPane.bottomAnchor="136.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="2.0">
                <children>
                   <AnchorPane layoutX="97.0" layoutY="99.0" prefHeight="366.0" prefWidth="227.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="99.0">
                      <children>

@@ -2,37 +2,31 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <VBox prefHeight="569.0" prefWidth="744.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-     <HBox alignment="CENTER" prefHeight="36.0" prefWidth="732.0">
-        <children>
-           <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
-           <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
-           <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
-           <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
-        </children>
-     </HBox>
-     <HBox alignment="CENTER" prefHeight="34.0" prefWidth="732.0">
-        <children>
-           <Button id="buttonExperimentSubject" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Испытуемые" />
-           <Button id="buttonEquipment" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Оборудование" />
-           <Button id="buttonChannel" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Каналы" />
-           <Button id="buttonProcessingMethod" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Методы обработки данных" />
-           <Button id="buttonArrangement" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Датчики" />
-        </children>
-     </HBox>
+      <HBox prefHeight="17.0" prefWidth="744.0">
+         <children>
+            <Button id="buttonMain" blendMode="MULTIPLY" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="menu" text="Главная" />
+            <Button id="buttonListExperiments" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Эксперименты" />
+            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Объекты БД" />
+            <Button id="buttonListUsers" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Пользователи" />
+            <Button id="buttonExperimentSubject" blendMode="MULTIPLY" minWidth="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Испытуемые" />
+            <Button id="buttonEquipment" blendMode="MULTIPLY" minWidth="105.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Оборудование" />
+            <Button id="buttonChannel" blendMode="MULTIPLY" minWidth="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="menu" text="Каналы" />
+            <Button id="buttonProcessingMethod" blendMode="MULTIPLY" minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Методы обработки данных" />
+            <Button id="buttonArrangement" blendMode="MULTIPLY" minWidth="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="menu" text="Датчики" />
+         </children>
+      </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="540.0" prefWidth="744.0" VBox.vgrow="ALWAYS">
       <children>
             <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-1.0" layoutY="16.0" minHeight="50.0" minWidth="5.0" prefHeight="140.0" prefWidth="732.0" text="Редактирование испытуемого" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
@@ -43,9 +37,9 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <AnchorPane layoutX="-5.0" layoutY="-41.0" prefHeight="491.0" prefWidth="744.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
+            <AnchorPane layoutX="-5.0" layoutY="-3.0" prefHeight="486.0" prefWidth="745.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-3.0">
                <children>
-                  <AnchorPane layoutX="97.0" layoutY="88.0" prefHeight="452.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="88.0">
+                  <AnchorPane layoutX="97.0" layoutY="55.0" prefHeight="431.0" prefWidth="227.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="55.0">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="18.0" text="Фамилия:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="20.0">
                            <font>
@@ -94,31 +88,31 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <TextField id="subjectLastName" fx:id="subjectLastName" layoutX="336.0" layoutY="186.0" prefHeight="25.0" prefWidth="351.0" promptText="Отчество" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="190.0">
+                  <TextField id="subjectLastName" fx:id="subjectLastName" layoutX="336.0" layoutY="157.0" prefHeight="25.0" prefWidth="351.0" promptText="Отчество" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="157.0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField id="subjectFirstName" fx:id="subjectFirstName" layoutX="336.0" layoutY="146.0" prefHeight="25.0" prefWidth="351.0" promptText="Имя" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="150.0">
+                  <TextField id="subjectFirstName" fx:id="subjectFirstName" layoutX="336.0" layoutY="117.0" prefHeight="25.0" prefWidth="351.0" promptText="Имя" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="117.0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField id="subjectSecondName" fx:id="subjectSecondName" layoutX="336.0" layoutY="106.0" prefHeight="25.0" prefWidth="351.0" promptText="Фамилия" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="110.0">
+                  <TextField id="subjectSecondName" fx:id="subjectSecondName" layoutX="336.0" layoutY="77.0" prefHeight="25.0" prefWidth="351.0" promptText="Фамилия" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="77.0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextArea id="subjectComments" fx:id="subjectComments" layoutX="336.0" layoutY="400.0" prefHeight="56.0" prefWidth="351.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="430.0">
+                  <TextArea id="subjectComments" fx:id="subjectComments" layoutX="336.0" layoutY="397.0" prefHeight="56.0" prefWidth="351.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="397.0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextArea>
-                  <TextField id="subjectBirthday" layoutX="339.0" layoutY="230.0" prefHeight="26.0" prefWidth="220.0" promptText="Дата рождения" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="230.0" />
-                  <ChoiceBox id="gender" layoutX="336.0" layoutY="267.0" prefHeight="27.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="267.0" />
-                  <ChoiceBox id="hand" layoutX="335.0" layoutY="309.0" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="309.0" />
-                  <ChoiceBox id="leg" layoutX="335.0" layoutY="352.0" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="350.0" />
-                  <ChoiceBox id="eye" layoutX="336.0" layoutY="391.0" prefHeight="27.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="390.0" />
+                  <DatePicker id="subjectBirthday" layoutX="336.0" layoutY="197.0" prefHeight="26.0" prefWidth="220.0" promptText="Дата рождения" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="197.0" />
+                  <ChoiceBox id="gender" layoutX="336.0" layoutY="234.0" prefHeight="27.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="234.0" />
+                  <ChoiceBox id="hand" layoutX="336.0" layoutY="276.0" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="276.0" />
+                  <ChoiceBox id="leg" layoutX="336.0" layoutY="317.0" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="317.0" />
+                  <ChoiceBox id="eye" layoutX="336.0" layoutY="357.0" prefHeight="27.0" prefWidth="220.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="357.0" />
                </children>
             </AnchorPane>
             <Button id="buttonEditSubject" fx:id="buttonCreateSubject" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="171.0" layoutY="356.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Редактировать" textAlignment="CENTER" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="260.0">

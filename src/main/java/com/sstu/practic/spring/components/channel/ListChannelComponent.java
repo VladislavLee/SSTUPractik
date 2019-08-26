@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -42,8 +43,6 @@ public class ListChannelComponent extends FxComponent {
     @Autowired
     private EditChannelComponent editChannelComponent;
     @Autowired
-    private ListProcessingMethodsComponents listProcessingMethodsComponents;
-    @Autowired
     private ListUserComponent listUserComponent;
     @Autowired
     private ListArrangementComponent listArrangementComponent;
@@ -56,8 +55,8 @@ public class ListChannelComponent extends FxComponent {
     @Autowired
     private ListMoodComponent listMoodComponent;
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listChannel");
         TableColumn<TbChannels, String> channelName
                 = new TableColumn<TbChannels, String>("Название");
@@ -99,6 +98,7 @@ public class ListChannelComponent extends FxComponent {
                                     btn.setId("Update");
                                     btn.setOnAction(event -> {
                                         TbChannels tbChannels = getTableView().getItems().get(getIndex());
+                                        editChannelComponent.setTextField(tbChannels);
                                         Stage stage = stageHolder.getStage();
                                         stage.setScene(editChannelComponent.getScene(tbChannels));
                                         stage.show();
@@ -155,11 +155,9 @@ public class ListChannelComponent extends FxComponent {
         tableView.getColumns().addAll(channelName, channelDescription, col_action, actionDelete);
 
 
-
         Pane root = (Pane) this.scene.getRoot();
-        root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
+        return this.scene;
     }
 
     private ObservableList<TbChannels> getList() {
@@ -181,7 +179,7 @@ public class ListChannelComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            stage.setScene(listProcessingMethodsComponents.getScene());
+            stage.setScene(listChannelComponent.getScene());
             stage.show();
         };
 

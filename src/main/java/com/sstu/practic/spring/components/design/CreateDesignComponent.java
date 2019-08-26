@@ -4,6 +4,14 @@ import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
+import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListFavoriteExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
+import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
+import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbArrangements;
 import com.sstu.practic.spring.data.model.TbExperimentDesign;
 import com.sstu.practic.spring.services.ArrangementService;
@@ -37,6 +45,29 @@ public class CreateDesignComponent extends FxComponent {
     private ArrangementService arrangementService;
     @Autowired
     private ExperimentDesignService experimentDesignService;
+    @Autowired
+    private ListDesignComponent listDesignComponent;
+    @Autowired
+    private EditDesignComponent editDesignComponent;
+    @Autowired
+    private ListUserComponent listUserComponent;
+    @Autowired
+    private ListArrangementComponent listArrangementComponent;
+    @Autowired
+    private ListExperimentSubject listExperimentSubject;
+    @Autowired
+    private ListExperimentTypeComponent listExperimentTypeComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListEquipmentsComponent listEquipmentsComponent;
+    @Autowired
+    private CreateDesignComponent createDesignComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
+    @Autowired
+    private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
+
 
     @HandleEvent(nodeName = "buttonCreateDesign")
     public EventPair eventHandler() {
@@ -58,7 +89,7 @@ public class CreateDesignComponent extends FxComponent {
                     .idUser(securityContext.getUser().getIdUser())
                     .build());
 
-            stage.setScene(mainComponent.getScene());
+            stage.setScene(listDesignComponent.getScene());
             stage.show();
         };
 
@@ -84,4 +115,155 @@ public class CreateDesignComponent extends FxComponent {
         choiceBox.setItems(FXCollections.observableArrayList((fieldNameList)));
         choiceBox.setValue("Оборудование 1");
     }
+
+
+
+
+    //    navigation
+
+    @HandleEvent(nodeName = "buttonMain")
+    public EventPair transitionToMain(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(mainComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+    @HandleEvent(nodeName = "buttonListExperiments")
+    public EventPair transitionToListExperiments(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonListExperimentSubjects")
+    public EventPair transitionToExperimentSubjects(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentSubject.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonListUsers")
+    public EventPair transitionToUsers(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listUserComponent.getScene());
+            stage.show();
+        };
+
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonExperiment")
+    public EventPair transitionToSubjects(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+    @HandleEvent(nodeName = "buttonMyExperiment")
+    public EventPair transitionToMyExperiment(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listMyExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonFavoriteExperiment")
+    public EventPair transitionToFavoriteExperiment(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listFavoriteExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonExperimentType")
+    public EventPair transitionToExperimentType(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listExperimentTypeComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
 }

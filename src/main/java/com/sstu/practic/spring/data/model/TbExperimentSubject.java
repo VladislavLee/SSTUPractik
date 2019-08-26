@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -25,7 +26,7 @@ public class TbExperimentSubject {
 
     private String vcLastName;
 
-    private String vcBirthday;
+    private LocalDate vcBirthday;
 
     private String vcGender;
 

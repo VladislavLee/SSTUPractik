@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="569.0" prefWidth="744.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+     <HBox alignment="CENTER" prefHeight="36.0" prefWidth="732.0">
+        <children>
+           <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
+           <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
+           <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
+           <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
+        </children>
+     </HBox>
+     <HBox alignment="CENTER" prefHeight="34.0" prefWidth="732.0">
+        <children>
+           <Button id="buttonExperimentSubject" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Испытуемые" />
+           <Button id="buttonEquipment" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Оборудование" />
+           <Button id="buttonChannel" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Каналы" />
+           <Button id="buttonProcessingMethod" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Методы обработки данных" />
+           <Button id="buttonArrangement" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Датчики" />
+        </children>
+     </HBox>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="540.0" prefWidth="744.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-1.0" layoutY="16.0" minHeight="50.0" minWidth="5.0" prefHeight="140.0" prefWidth="732.0" text="Редактирование оборудования" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </Label>
+            <AnchorPane layoutX="-5.0" layoutY="-41.0" prefHeight="484.0" prefWidth="744.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
+               <children>
+                  <AnchorPane layoutX="97.0" layoutY="88.0" prefHeight="366.0" prefWidth="227.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="88.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="18.0" prefHeight="30.0" prefWidth="122.0" text="Название:" textAlignment="CENTER" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="20.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="68.0" prefHeight="92.0" prefWidth="198.0" text="Краткое описание &#10;характеристик &#10;оборудования:" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="68.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="172.0" prefHeight="53.0" prefWidth="161.0" text="Сертификат:" textAlignment="CENTER" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="172.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="232.0" prefHeight="60.0" prefWidth="227.0" text="Выходные данные &#10;сертификата:" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="232.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TextField id="equipmentName" fx:id="equipmentName" layoutX="336.0" layoutY="106.0" prefHeight="25.0" prefWidth="351.0" promptText="Название" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="110.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField id="certificateName" promptText="Имя сертификата" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="275.0" />
+                  <TextArea id="equipmentSpecification" layoutX="336.0" layoutY="166.0" prefHeight="92.0" prefWidth="209.0" promptText="Характеристики оборудования" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="166.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextArea>
+                  <TextField id="certificateOutput" layoutX="336.0" layoutY="327.0" prefHeight="53.0" prefWidth="209.0" promptText="Выходные данные" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="327.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+            <Button id="buttonEditEquipment" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="171.0" layoutY="356.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Редактировать" textAlignment="CENTER" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="260.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+      </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+    </AnchorPane>
+  </children>
+</VBox>

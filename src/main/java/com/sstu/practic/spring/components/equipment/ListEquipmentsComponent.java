@@ -13,6 +13,7 @@ import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodC
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbEquipment;
+import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.services.EquipmentService;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
@@ -20,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -31,6 +33,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @JavaFxComponent(path = "/view/listEquipments.fxml")
@@ -63,8 +68,10 @@ public class ListEquipmentsComponent extends FxComponent {
     private ListMoodComponent listMoodComponent;
     @Autowired
     private CreateEquipmentComponent createEquipmentComponent;
-    @PostConstruct
-    public void init() {
+
+
+    @Override
+    public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listEquipment");
 
         TableColumn<TbEquipment, String> equipmentName
@@ -86,7 +93,7 @@ public class ListEquipmentsComponent extends FxComponent {
 
         equipmentName.setCellValueFactory(new PropertyValueFactory<>("vcName"));
         equipmentSpecification.setCellValueFactory(new PropertyValueFactory<>("vcDescription"));
-        certificatePath.setCellValueFactory(new  PropertyValueFactory<>("vcCertificateName"));
+        certificatePath.setCellValueFactory(new  PropertyValueFactory<>("dsf"));
         certificateOutput.setCellValueFactory(new PropertyValueFactory<>("vcCertificateOutput"));
         actionUpdate.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         actionDelete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
@@ -94,6 +101,61 @@ public class ListEquipmentsComponent extends FxComponent {
 
         ObservableList<TbEquipment> list = getList();
         tableView.setItems(list);
+
+
+        Callback<TableColumn<TbEquipment, String>, TableCell<TbEquipment, String>> certificate
+                =
+                new Callback<TableColumn<TbEquipment, String>, TableCell<TbEquipment, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<TbEquipment, String> param) {
+                        final TableCell<TbEquipment, String> cell = new TableCell<TbEquipment, String>() {
+
+
+                            final Button btn = new Button("certificate");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setId("Certificate");
+                                    btn.setOnAction(event -> {
+                                        TbEquipment tbEquipment = getTableView().getItems().get(getIndex());
+                                        String vcCertificateName = getTableView().getItems().get(getIndex()).getVcCertificateName();
+                                        byte[] certificate = getTableView().getItems().get(getIndex()).getVcCertificate();
+                                        FileOutputStream fileOutputStream = null;
+                                        try {
+                                            fileOutputStream = new FileOutputStream("/Users/vlad/Documents/ProjectPractic/practic/download/".concat(vcCertificateName));
+
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.write(certificate);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        Stage stage = stageHolder.getStage();
+                                        stage.show();
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
 
 
         Callback<TableColumn<TbEquipment, String>, TableCell<TbEquipment, String>> cellFactory
@@ -163,18 +225,16 @@ public class ListEquipmentsComponent extends FxComponent {
                 };
 
 
-
         actionUpdate.setCellFactory(cellFactory);
         actionDelete.setCellFactory(createButtonDelete);
+        certificatePath.setCellFactory(certificate);
 
-
-        tableView.getColumns().addAll(equipmentName, equipmentSpecification, certificatePath, certificateOutput, actionUpdate, actionDelete );
-
+        tableView.getColumns().addAll(equipmentName, equipmentSpecification, certificatePath,  actionUpdate, actionDelete );
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
+        return this.scene;
     }
 
     private ObservableList<TbEquipment> getList() {
@@ -346,4 +406,24 @@ public class ListEquipmentsComponent extends FxComponent {
 
         return pair;
     }
+
+    @HandleEvent(nodeName = "buttonMain")
+    public EventPair transitionToMain(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(mainComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
 }

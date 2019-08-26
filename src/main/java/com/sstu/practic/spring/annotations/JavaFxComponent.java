@@ -15,5 +15,5 @@ public @interface JavaFxComponent {
 
     String path();
     int width() default 1100;
-    int height() default 700;
+    int height() default 720;
 }

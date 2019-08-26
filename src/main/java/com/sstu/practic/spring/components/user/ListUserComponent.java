@@ -11,12 +11,15 @@ import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubjec
 import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
 import com.sstu.practic.spring.data.model.TbUser;
 import com.sstu.practic.spring.services.UserService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -27,7 +30,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.annotation.PostConstruct;
+
+import java.util.Arrays;
 import java.util.List;
 
 @JavaFxComponent(path = "/view/listUser.fxml")
@@ -52,10 +56,21 @@ public class ListUserComponent extends FxComponent {
     private ListExperimentTypeComponent listExperimentTypeComponent;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private CreateUserComponent createUserComponent;
+    @Autowired
+    private EditUserForAdminComponent editUserForAdminComponent;
+    @Autowired
+    private SecurityContext securityContext;
     private ObservableList<TbUser> userData = FXCollections.observableArrayList();
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public List<Role> getRole(){
+        return Arrays.asList(Role.ADMIN, Role.EXPERIMENTATOR, Role.USER);
+    }
+
+    @Override
+    public Scene getScene(){
         TableView tableView =(TableView) scene.lookup("#tableUsers");
 
         TableColumn<TbUser, String> login
@@ -113,8 +128,16 @@ public class ListUserComponent extends FxComponent {
                                     btn.setOnAction(event -> {
                                         TbUser tbUser = getTableView().getItems().get(getIndex());
                                         Stage stage = stageHolder.getStage();
-                                        stage.setScene(editUserComponent.getScene(tbUser));
-                                        stage.show();
+
+                                        if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                                            editUserForAdminComponent.setTextField(tbUser);
+                                            stage.setScene(editUserForAdminComponent.getScene(tbUser));
+                                            stage.show();
+                                        } else {
+                                            stage.setScene(mainComponent.getScene());
+                                            stage.show();
+                                        }
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -168,15 +191,64 @@ public class ListUserComponent extends FxComponent {
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
-        this.scene.setRoot(root);
 
+        this.scene.setRoot(root);
+        return this.scene;
     }
 
     private ObservableList<TbUser> getList() {
         List<TbUser> users = userService.getAllUsers();
         ObservableList<TbUser> list = FXCollections.observableArrayList(users);
         return list;
+    }
+
+
+
+    @HandleEvent(nodeName = "editUserByUser")
+    public EventPair editUserByUser(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            TbUser tbUser = securityContext.getUser();
+
+            editUserComponent.setTextField(tbUser);
+
+            stage.setScene(editUserComponent.getScene(tbUser));
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+
+    @HandleEvent(nodeName = "createUser")
+    public EventPair createUser(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+
+                stage.setScene(createUserComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(mainComponent.getScene());
+                stage.show();
+            }
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
     }
 
 
@@ -199,14 +271,14 @@ public class ListUserComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair eventPair3(){
+    public EventPair transitionToListExperiments(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
 
-            stage.setScene(listDesignComponent.getScene());
+            stage.setScene(listExperimentComponent.getScene());
             stage.show();
         };
 
@@ -218,7 +290,7 @@ public class ListUserComponent extends FxComponent {
 
 
     @HandleEvent(nodeName = "buttonMain")
-    public EventPair eventPair5(){
+    public EventPair transitionToMain(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {

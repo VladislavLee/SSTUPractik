@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -59,8 +60,11 @@ public class ListMoodComponent extends FxComponent {
     private ListChannelComponent listChannelComponent;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
-    @PostConstruct
-    public void init() {
+    @Autowired
+    private CreateMoodComponent createMoodComponent;
+
+    @Override
+    public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listMood");
 
         TableColumn<TbMood, String> moodName
@@ -162,9 +166,8 @@ public class ListMoodComponent extends FxComponent {
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
-
+        return this.scene;
     }
 
     private ObservableList<TbMood> getList() {
@@ -172,6 +175,23 @@ public class ListMoodComponent extends FxComponent {
         ObservableList<TbMood> list = FXCollections.observableArrayList(moods);
         return list;
     }
+
+    @HandleEvent(nodeName = "createMood")
+    public EventPair createMood(){
+        EventPair pair = new EventPair();
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+            stage.setScene(createMoodComponent.getScene());
+            stage.show();
+        };
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+
 
 
 

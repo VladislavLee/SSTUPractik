@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -59,9 +60,12 @@ public class ListProcessingMethodsComponents extends FxComponent {
     private ListChannelComponent listChannelComponent;
     @Autowired
     private ListMoodComponent listMoodComponent;
+    @Autowired
+    private CreateProcessingMethodComponent createProcessingMethodComponent;
 
-    @PostConstruct
-    public void init() {
+
+    @Override
+    public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listProcessingMethod");
 
         TableColumn<TbProcessingMethod, String> processingMethodName
@@ -108,6 +112,7 @@ public class ListProcessingMethodsComponents extends FxComponent {
                                     btn.setId("Update");
                                     btn.setOnAction(event -> {
                                         TbProcessingMethod tbProcessingMethod = getTableView().getItems().get(getIndex());
+                                        editProcessingMethodComponent.setTextField(tbProcessingMethod);
                                         Stage stage = stageHolder.getStage();
                                         stage.setScene(editProcessingMethodComponent.getScene(tbProcessingMethod));
                                         stage.show();
@@ -165,9 +170,8 @@ public class ListProcessingMethodsComponents extends FxComponent {
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
-
+        return this.scene;
     }
 
     private ObservableList<TbProcessingMethod> getList() {
@@ -177,6 +181,29 @@ public class ListProcessingMethodsComponents extends FxComponent {
     }
 
 
+    @HandleEvent(nodeName = "createProcessingMethod")
+    public EventPair createProcessingMethod(){
+        EventPair pairEquipment = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(createProcessingMethodComponent.getScene());
+            stage.show();
+        };
+
+        pairEquipment.setEventHandler(eventHandler);
+        pairEquipment.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pairEquipment;
+    }
+
+
+
+
+
+
 
 
 
@@ -184,7 +211,6 @@ public class ListProcessingMethodsComponents extends FxComponent {
 
 
     //navigation
-
 
     @HandleEvent(nodeName = "buttonEquipment")
     public EventPair transitionToEquipment(){

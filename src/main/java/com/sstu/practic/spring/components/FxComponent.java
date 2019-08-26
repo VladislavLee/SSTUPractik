@@ -36,7 +36,7 @@ public abstract class FxComponent {
     protected Scene scene;
 
     protected List<Role> getRole(){
-        return Arrays.asList(Role.ADMIN,Role.USER, Role.EXPERIMENTATOR);
+        return Arrays.asList(Role.ADMIN, Role.USER, Role.EXPERIMENTATOR);
     }
 
     @Authenticated

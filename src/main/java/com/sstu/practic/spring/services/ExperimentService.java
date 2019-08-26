@@ -2,6 +2,7 @@ package com.sstu.practic.spring.services;
 
 import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.data.repositories.ExperimentRepository;
+import com.sstu.practic.spring.data.repositories.FavoriteExperimentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,13 @@ import java.util.List;
 public class ExperimentService {
     @Autowired
     private ExperimentRepository experimentRepository;
+    @Autowired
+    private FavoriteExperimentRepository favoriteExperimentRepository;
+    @Autowired
+    private FavoriteExperimentService favoriteExperimentService;
+
+
+
 
     public void addExperiment(TbExperiment tbExperiment){
         experimentRepository.save(tbExperiment);

@@ -39,6 +39,13 @@ public class TbExperiment {
 
     private String vcMood;
 
+    private String vcNameAgreement;
+
+    private String vcNameProtocol1;
+
+    private String vcNameProtocol2;
+
+    private String vcNameProtocol3;
 
     @Lob
     @Column(columnDefinition="BLOB")

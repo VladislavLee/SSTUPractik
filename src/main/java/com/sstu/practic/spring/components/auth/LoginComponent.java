@@ -17,6 +17,7 @@ import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.CreateExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListFavoriteExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.CreateExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.EditExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
@@ -27,6 +28,7 @@ import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.CreateProcessingMethodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.CreateUserComponent;
+import com.sstu.practic.spring.components.user.EditUserForAdminComponent;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.services.security.LoginService;
 import com.sstu.practic.spring.utils.StageHolder;
@@ -41,7 +43,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @JavaFxComponent(path = "/view/login.fxml")
 public class LoginComponent extends FxComponent {
-
     @Autowired
     private CreateProcessingMethodComponent createProcessingMethodComponent;
     @Autowired
@@ -96,6 +97,10 @@ public class LoginComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
+    @Autowired
+    private EditUserForAdminComponent editUserForAdminComponent;
     @Override
     public Scene getScene() {
         return scene;
@@ -114,7 +119,7 @@ public class LoginComponent extends FxComponent {
             if(loginService.login(usernameTextField.getText(),passwordField.getText())){
                 stage.setScene(mainComponent.getScene());
                 stage.show();
-            }else {
+            } else {
                 usernameTextField.setText("");
                 passwordField.setText("");
             }
@@ -125,4 +130,7 @@ public class LoginComponent extends FxComponent {
 
         return pair;
     }
+
+
+
 }

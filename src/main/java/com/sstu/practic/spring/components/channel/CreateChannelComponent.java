@@ -12,11 +12,9 @@ import com.sstu.practic.spring.services.ChannelService;
 import com.sstu.practic.spring.services.security.SecurityContext;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +27,19 @@ public class CreateChannelComponent extends FxComponent {
 
     @Autowired
     private MainComponent mainComponent;
-
+    @Autowired
+    private ListChannelComponent listChannelComponent;
     @Autowired
     private CreateProcessingMethodComponent createProcessingMethodComponent;
     @Autowired
     ChannelService channelService;
-
     @Autowired
     private StageHolder stageHolder;
-
     @Autowired
     private SecurityContext securityContext;
 
+
+    
 
     @HandleEvent(nodeName = "buttonCreateChannel")
     public EventPair eventHandler() {
@@ -58,7 +57,7 @@ public class CreateChannelComponent extends FxComponent {
             .idUser(securityContext.getUser().getIdUser())
             .build());
 
-            stage.setScene(createProcessingMethodComponent.getScene());
+            stage.setScene(listChannelComponent.getScene());
             stage.show();
         };
 

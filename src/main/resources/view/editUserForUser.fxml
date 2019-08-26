@@ -15,12 +15,13 @@
 
 <VBox prefHeight="534.0" prefWidth="732.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="27.0" prefWidth="500.0">
          <children>
-            <Button id="buttonMain" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Главная" />
-            <Button id="buttonListExperiments" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Эксперименты" />
-            <Button id="buttonListExperimentSubjects" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Объекты БД" />
-            <Button id="buttonListUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="Пользователи" />
+            <Button id="buttonMain" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Главная" />
+            <Button id="buttonListExperiments" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Эксперименты" />
+            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Объекты БД" textFill="WHITE" />
+            <Button id="buttonListUsers" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Пользователи" textFill="WHITE" />
+            <HBox blendMode="MULTIPLY" minWidth="130.0" prefHeight="25.0" prefWidth="1000.0" styleClass="menu" />
          </children>
       </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="440.0" prefWidth="728.0" VBox.vgrow="ALWAYS">
@@ -33,7 +34,7 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <AnchorPane layoutX="-5.0" layoutY="-41.0" prefHeight="431.0" prefWidth="738.0" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
+            <AnchorPane layoutX="-5.0" layoutY="-3.0" prefHeight="406.0" prefWidth="738.0" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-3.0">
                <children>
                   <AnchorPane layoutX="109.0" layoutY="120.0" prefHeight="348.0" prefWidth="208.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="411.0" AnchorPane.topAnchor="120.0">
                      <children>
@@ -104,7 +105,7 @@
                         <Font size="15.0" />
                      </font>
                   </PasswordField>
-                  <TextArea id="userComments" fx:id="aboutUser" layoutX="336.0" layoutY="350.0" prefHeight="56.0" prefWidth="351.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="350.0">
+                  <TextArea id="userComments" fx:id="aboutUser" layoutX="336.0" layoutY="350.0" prefHeight="50.0" prefWidth="202.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="350.0">
                      <font>
                         <Font size="15.0" />
                      </font>

@@ -1,62 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.HBox?>
 <VBox prefHeight="569.0" prefWidth="744.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-    <MenuBar id="menu" accessibleRole="MENU_BUTTON" prefHeight="31.0" prefWidth="660.0" stylesheets="@style.css" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="AISN" />
-            <Menu mnemonicParsing="false" text="Эксперименты">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Список экспериментов" />
-                  <MenuItem mnemonicParsing="false" text="Мои эксперименты" />
-                  <MenuItem mnemonicParsing="false" text="Избранные эксперименты" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Объекты базы данных">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Испытуемые" />
-                  <MenuItem mnemonicParsing="false" text="Каналы" />
-                  <MenuItem mnemonicParsing="false" text="Методы обработки данных" />
-                  <MenuItem mnemonicParsing="false" text="Оборудование" />
-                  <MenuItem mnemonicParsing="false" text="Планы экспериментов" />
-                  <MenuItem mnemonicParsing="false" text="Пользователи" />
-                  <MenuItem mnemonicParsing="false" text="Расстановка датчиков" />
-                  <MenuItem mnemonicParsing="false" text="Типы экспериментов" />
-                  <MenuItem mnemonicParsing="false" text="Эмоциональное состояние" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Администрирование">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Каналы и расстановка датчиков" />
-                  <MenuItem mnemonicParsing="false" text="Оборудование в экспериментах" />
-                  <MenuItem mnemonicParsing="false" text="Каналы и методы обработки данных в экспериментах" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Пользователь">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Личные данные" />
-               </items>
-            </Menu>
-      </menus>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-    </MenuBar>
+      <HBox prefHeight="36.0" prefWidth="732.0">
+         <children>
+            <Button id="buttonMain" blendMode="MULTIPLY" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" styleClass="menu" text="Главная" />
+            <Button id="buttonListExperiments" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Эксперименты" />
+            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Объекты БД" />
+            <Button id="buttonListUsers" blendMode="MULTIPLY" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Пользователи" />
+            <Button id="buttonExperiment" blendMode="MULTIPLY" minWidth="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Список экспериментов" />
+            <Button id="buttonMyExperiment" blendMode="MULTIPLY" minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Мои эксперименты" />
+            <Button id="buttonFavoriteExperiment" blendMode="MULTIPLY" minWidth="93.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Избранные эксперименты" />
+            <Button id="buttonExperimentType" blendMode="MULTIPLY" minWidth="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="menu" text="Типы экспериментов" />
+         </children>
+      </HBox>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="540.0" prefWidth="744.0" VBox.vgrow="ALWAYS">
       <children>
             <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-1.0" layoutY="16.0" minHeight="50.0" minWidth="5.0" prefHeight="140.0" prefWidth="732.0" text="Добавление плана эксперимента" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
@@ -67,7 +35,7 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <AnchorPane layoutX="-5.0" layoutY="-41.0" prefHeight="484.0" prefWidth="744.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="-30.0">
+            <AnchorPane layoutX="-5.0" layoutY="1.0" prefHeight="435.0" prefWidth="746.0" AnchorPane.bottomAnchor="96.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="1.0">
                <children>
                   <AnchorPane layoutX="97.0" layoutY="88.0" prefHeight="394.0" prefWidth="226.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="88.0">
                      <children>

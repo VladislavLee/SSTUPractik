@@ -5,9 +5,7 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
-import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
-import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
 import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodComponent;
@@ -23,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -35,6 +34,9 @@ import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @JavaFxComponent(path = "/view/listExperiment.fxml")
@@ -65,9 +67,16 @@ public class ListExperimentComponent extends FxComponent{
     private ListExperimentTypeComponent listExperimentTypeComponent;
     @Autowired
     private FavoriteExperimentService favoriteExperimentService;
-
-    @PostConstruct
-    public void init() {
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
+    @Autowired
+    private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private CreateExperimentComponent createExperimentComponent;
+    @Override
+    public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listExperiment");
 
         TableColumn<TbExperiment, String> experimentType
@@ -80,6 +89,15 @@ public class ListExperimentComponent extends FxComponent{
                 = new TableColumn<TbExperiment, String>("Настроение");
         TableColumn< TbExperiment, String> date
                 = new TableColumn<TbExperiment, String>("Дата");
+        TableColumn< TbExperiment, String> agreement
+                = new TableColumn<TbExperiment, String>("Согласие");
+        TableColumn< TbExperiment, String> protocol1
+                = new TableColumn<TbExperiment, String>("Протокол 1");
+        TableColumn< TbExperiment, String> protocol2
+                = new TableColumn<TbExperiment, String>("Протокол 2");
+        TableColumn< TbExperiment, String> protocol3
+                = new TableColumn<TbExperiment, String>("Протокол 3");
+
         TableColumn< TbExperiment, String> recordDuration
                 = new TableColumn<TbExperiment, String>("Длительность сессии");
         TableColumn< TbExperiment, String> subjectWeight
@@ -105,13 +123,236 @@ public class ListExperimentComponent extends FxComponent{
         recordDuration.setCellValueFactory(new PropertyValueFactory<>("vcRecordDuration"));
         subjectWeight.setCellValueFactory(new PropertyValueFactory<>("vcSubjectWeight"));
         experimentComments.setCellValueFactory(new PropertyValueFactory<>("vcDescription"));
+        agreement.setCellValueFactory(new PropertyValueFactory<>("fds"));
+        protocol1.setCellValueFactory(new PropertyValueFactory<>("dsfd"));
+        protocol2.setCellValueFactory(new PropertyValueFactory<>("dsfd"));
+        protocol3.setCellValueFactory(new PropertyValueFactory<>("dsfd"));
         actionUpdate.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         actionDelete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         actionAddFavorite.setCellFactory(new PropertyValueFactory<>(""));
 
-
         ObservableList<TbExperiment> list = getList();
         tableView.setItems(list);
+
+        Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>> createProtocol1
+                =
+                new Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<TbExperiment, String> param) {
+                        final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
+
+                            final Button btn = new Button("Загрузить Protocol1");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setId("Protocol1");
+                                    btn.setOnAction(event -> {
+                                        TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
+                                        String nameProtocol1 = getTableView().getItems().get(getIndex()).getVcNameAgreement();
+                                        byte[] protocol1 = getTableView().getItems().get(getIndex()).getVcProtocol1();
+                                        FileOutputStream fileOutputStream = null;
+                                        try {
+                                            fileOutputStream = new FileOutputStream("/Users/vlad/Documents/ProjectPractic/practic/download/".concat(nameProtocol1));
+
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.write(protocol1);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        Stage stage = stageHolder.getStage();
+                                        stage.show();
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+        Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>> createProtocol2
+                =
+                new Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<TbExperiment, String> param) {
+                        final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
+
+                            final Button btn = new Button("Загрузить Protocol2");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setId("Protocol2");
+                                    btn.setOnAction(event -> {
+                                        TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
+                                        String nameProtocol2 = getTableView().getItems().get(getIndex()).getVcNameProtocol2();
+
+                                        byte[] protocol2 = getTableView().getItems().get(getIndex()).getVcProtocol2();
+                                        FileOutputStream fileOutputStream = null;
+                                        try {
+                                            fileOutputStream = new FileOutputStream("/Users/vlad/Documents/ProjectPractic/practic/download/".concat(nameProtocol2));
+
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.write(protocol2);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        Stage stage = stageHolder.getStage();
+                                        stage.show();
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+        Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>> createProtocol3
+                =
+                new Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<TbExperiment, String> param) {
+                        final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
+
+                            final Button btn = new Button("Загрузить Protocol3");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setId("Protocol3");
+                                    btn.setOnAction(event -> {
+                                        TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
+                                        String nameProtocol3 = getTableView().getItems().get(getIndex()).getVcNameProtocol3();
+
+                                        byte[] protocol3 = getTableView().getItems().get(getIndex()).getVcProtocol3();
+                                        FileOutputStream fileOutputStream = null;
+                                        try {
+                                            fileOutputStream = new FileOutputStream("/Users/vlad/Documents/ProjectPractic/practic/download/".concat(nameProtocol3));
+
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.write(protocol3);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        Stage stage = stageHolder.getStage();
+                                        stage.show();
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+        Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>> createAgreement
+                =
+                new Callback<TableColumn<TbExperiment, String>, TableCell<TbExperiment, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<TbExperiment, String> param) {
+                        final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
+
+                            final Button btn = new Button("Загрузить согласие");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setId("Agreement");
+                                    btn.setOnAction(event -> {
+                                        TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
+                                        String nameAgreement = getTableView().getItems().get(getIndex()).getVcNameAgreement();
+                                        byte[] agreement = getTableView().getItems().get(getIndex()).getVcAgreement();
+                                        FileOutputStream fileOutputStream = null;
+                                        try {
+                                            fileOutputStream = new FileOutputStream("/Users/vlad/Documents/ProjectPractic/practic/download/".concat(nameAgreement));
+
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.write(agreement);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            fileOutputStream.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        Stage stage = stageHolder.getStage();
+                                        stage.show();
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+
 
 
 
@@ -170,7 +411,10 @@ public class ListExperimentComponent extends FxComponent{
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
+
+                                        favoriteExperimentService.deleteFavoriteByExperiment(tbExperiment);
                                         experimentService.deleteExperiment(tbExperiment);
+
                                         list.removeAll(list);
                                         ObservableList<TbExperiment> lister = getList();
                                         tableView.setItems(lister);
@@ -216,23 +460,21 @@ public class ListExperimentComponent extends FxComponent{
                 };
 
 
-
-
-
-
         actionAddFavorite.setCellFactory(createButtonAddFavorite);
         actionUpdate.setCellFactory(cellFactory);
         actionDelete.setCellFactory(createButtonDelete);
+        agreement.setCellFactory(createAgreement);
+        protocol1.setCellFactory(createProtocol1);
+        protocol2.setCellFactory(createProtocol2);
+        protocol3.setCellFactory(createProtocol3);
 
-
-
-        tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, recordDuration, subjectWeight,
+        tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, agreement, protocol1, protocol2 , protocol3 , recordDuration, subjectWeight,
                                         experimentComments, actionAddFavorite, actionUpdate, actionDelete );
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
         this.scene.setRoot(root);
+        return this.scene;
     }
 
     private ObservableList<TbExperiment> getList() {
@@ -241,6 +483,33 @@ public class ListExperimentComponent extends FxComponent{
         return list;
     }
 
+    @HandleEvent(nodeName = "createExperiment")
+    public EventPair createExperiment(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(createExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -248,8 +517,23 @@ public class ListExperimentComponent extends FxComponent{
 
     //navigation
 
+    @HandleEvent(nodeName = "buttonMain")
+    public EventPair transitionToMain(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
 
 
+            stage.setScene(mainComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
 
 
     @HandleEvent(nodeName = "buttonListUsers")
@@ -296,7 +580,7 @@ public class ListExperimentComponent extends FxComponent{
             Stage stage = stageHolder.getStage();
 
 
-            stage.setScene(listDesignComponent.getScene());
+            stage.setScene(listExperimentComponent.getScene());
             stage.show();
         };
 
@@ -342,5 +626,41 @@ public class ListExperimentComponent extends FxComponent{
         return pair;
     }
 
+
+    @HandleEvent(nodeName = "buttonMyExperiment")
+    public EventPair transitionToMyExperiment(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listMyExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+    @HandleEvent(nodeName = "buttonFavoriteExperiment")
+    public EventPair transitionToFavoriteExperiment(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+
+            stage.setScene(listFavoriteExperimentComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
 
 }

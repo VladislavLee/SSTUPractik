@@ -1,11 +1,9 @@
 package com.sstu.practic.spring.services;
 
-import com.sstu.practic.spring.data.model.TbMood;
 import com.sstu.practic.spring.data.model.TbProcessingMethod;
 import com.sstu.practic.spring.data.repositories.ProcessingMethodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,6 @@ public class ProcessingMethodService {
     public void updateProcessingMethod( TbProcessingMethod tbProcessingMethod) {
         processingMethodRepository.save(tbProcessingMethod);
     }
-
 
     public void deleteProcessingMethod(TbProcessingMethod tbProcessingMethod){
         processingMethodRepository.delete(tbProcessingMethod);

@@ -1,10 +1,14 @@
 package com.sstu.practic.spring.components.user;
 
+import com.sstu.practic.spring.annotations.Authenticated;
 import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
+import com.sstu.practic.spring.annotations.PreAuthorize;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.data.model.TbUser;
 import com.sstu.practic.spring.services.UserService;
@@ -44,24 +48,21 @@ public class EditUserForAdminComponent extends FxComponent {
     private ListExperimentSubject listExperimentSubject;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentForUserComponent;
 
     private TbUser tbUser;
 
 
-
+    @PreAuthorize(Role.ADMIN)
     public Scene getScene(TbUser tbUser) {
         this.tbUser = tbUser;
         return scene;
     }
 
-    @Override
-    public List<Role> getRole(){
-        return Arrays.asList(Role.ADMIN);
-    }
-
 
     public void setTextField(TbUser tbUser) {
-        TextField login = (TextField) scene.lookup("#login");
+
         PasswordField password = (PasswordField) scene.lookup("#password");
         TextField firstName = (TextField) scene.lookup("#userFirstName");
         TextField secondName = (TextField) scene.lookup("#userSecondName");
@@ -69,7 +70,6 @@ public class EditUserForAdminComponent extends FxComponent {
         TextArea comments = (TextArea) scene.lookup("#userComments");
         ChoiceBox role = (ChoiceBox) scene.lookup("#chooseRole");
 
-        login.setText(tbUser.getVcLogin());
         password.setText(tbUser.getVcPassword());
         firstName.setText(tbUser.getVcFirstName());
         secondName.setText(tbUser.getVcSecondName());
@@ -86,7 +86,6 @@ public class EditUserForAdminComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            String login = ((TextField) scene.lookup("#login")).getText();
             String password = ((PasswordField) scene.lookup("#password")).getText();
             String firstName = ((TextField) scene.lookup("#userFirstName")).getText();
             String secondName = ((TextField) scene.lookup("#userSecondName")).getText();
@@ -94,7 +93,7 @@ public class EditUserForAdminComponent extends FxComponent {
             String comments = ((TextArea) scene.lookup("#userComments")).getText();
             Role role = (Role)((ChoiceBox) scene.lookup("#chooseRole")).getValue();
 
-            tbUser.setVcLogin(login);
+
             tbUser.setVcPassword(password);
             tbUser.setVcFirstName(firstName);
             tbUser.setVcSecondName(secondName);
@@ -120,7 +119,6 @@ public class EditUserForAdminComponent extends FxComponent {
     public void init(){
         ChoiceBox choiceBox =(ChoiceBox) scene.lookup("#chooseRole");
         choiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Role.ADMIN,Role.EXPERIMENTATOR, Role.USER)));
-
     }
 
 
@@ -143,15 +141,18 @@ public class EditUserForAdminComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentForUserComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

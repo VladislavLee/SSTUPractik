@@ -1,7 +1,8 @@
 .background {
-    /*-fx-background-image: url(fon1.jpg) repeat-y;*/
+    -fx-background-image: url(fon.jpg) repeat-y;
 	-fx-background-size: 100%;
 }
+
 .menu {
 	-fx-background-color: #a5a5a5;
 	-fx-border-color: #2c3136;

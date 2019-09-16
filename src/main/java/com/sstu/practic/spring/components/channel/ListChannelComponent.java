@@ -5,14 +5,19 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.banner.BannerComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbChannels;
 import com.sstu.practic.spring.services.ChannelService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -54,6 +59,14 @@ public class ListChannelComponent extends FxComponent {
     private ListEquipmentsComponent listEquipmentsComponent;
     @Autowired
     private ListMoodComponent listMoodComponent;
+    @Autowired
+    private SecurityContext securityContext;
+    @Autowired
+    private BannerComponent bannerComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
 
     @Override
     public Scene getScene() {
@@ -64,9 +77,9 @@ public class ListChannelComponent extends FxComponent {
         TableColumn< TbChannels, String> channelDescription
                 = new TableColumn<TbChannels, String>("Краткое описание");
 
-        TableColumn col_action = new TableColumn<>("Update");
+        TableColumn col_action = new TableColumn<>("Редактировать");
 
-        TableColumn actionDelete= new TableColumn("Delete");
+        TableColumn actionDelete= new TableColumn("Удалить");
         col_action.setSortable(false);
         actionDelete.setSortable(false);
 
@@ -86,7 +99,7 @@ public class ListChannelComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbChannels, String> param) {
                         final TableCell<TbChannels, String> cell = new TableCell<TbChannels, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Редактировать");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -98,10 +111,18 @@ public class ListChannelComponent extends FxComponent {
                                     btn.setId("Update");
                                     btn.setOnAction(event -> {
                                         TbChannels tbChannels = getTableView().getItems().get(getIndex());
-                                        editChannelComponent.setTextField(tbChannels);
+
                                         Stage stage = stageHolder.getStage();
-                                        stage.setScene(editChannelComponent.getScene(tbChannels));
-                                        stage.show();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            editChannelComponent.setTextField(tbChannels);
+                                            stage.setScene(editChannelComponent.getScene(tbChannels));
+                                            stage.show();
+                                        }
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -118,9 +139,7 @@ public class ListChannelComponent extends FxComponent {
                     @Override
                     public TableCell call(final TableColumn<TbChannels, String> param) {
                         final TableCell<TbChannels, String> cell = new TableCell<TbChannels, String>() {
-
-                            final Button btn = new Button("DELETE");
-
+                            final Button btn = new Button("Удалить");
                             @Override
                             public void updateItem(String item, boolean empty) {
                                 super.updateItem(item, empty);
@@ -131,10 +150,13 @@ public class ListChannelComponent extends FxComponent {
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbChannels tbChannels = getTableView().getItems().get(getIndex());
+                                        Stage stage = stageHolder.getStage();
+
                                         channelService.deleteChannel(tbChannels);
                                         list.removeAll(list);
                                         ObservableList<TbChannels> lister = getList();
                                         tableView.setItems(lister);
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -147,13 +169,13 @@ public class ListChannelComponent extends FxComponent {
 
 
 
-
         col_action.setCellFactory(cellFactory);
         actionDelete.setCellFactory(createButtonDelete);
 
 
-        tableView.getColumns().addAll(channelName, channelDescription, col_action, actionDelete);
-
+        if (tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(channelName ,channelDescription , col_action , actionDelete);
+        }
 
         Pane root = (Pane) this.scene.getRoot();
         this.scene.setRoot(root);
@@ -166,12 +188,7 @@ public class ListChannelComponent extends FxComponent {
         return list;
     }
 
-
-
-
     //navigation
-
-
     @HandleEvent(nodeName = "buttonProcessingMethod")
     public EventPair transitionToProcessingMethod(){
         EventPair pair = new EventPair();
@@ -306,10 +323,13 @@ public class ListChannelComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

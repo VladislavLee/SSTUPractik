@@ -6,10 +6,7 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
-import com.sstu.practic.spring.components.experiment.EditExperimentComponent;
-import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
-import com.sstu.practic.spring.components.experiment.ListFavoriteExperimentComponent;
-import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.*;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
@@ -19,6 +16,7 @@ import com.sstu.practic.spring.data.model.TbExperimentType;
 import com.sstu.practic.spring.services.ExperimentService;
 import com.sstu.practic.spring.services.ExperimentTypeService;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.event.EventHandler;
@@ -171,10 +169,13 @@ public class EditExperimentTypeComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

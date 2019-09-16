@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -46,6 +47,9 @@ public class TbExperiment {
     private String vcNameProtocol2;
 
     private String vcNameProtocol3;
+
+//    @ManyToMany
+//    private List<TbUser> userList;
 
     @Lob
     @Column(columnDefinition="BLOB")

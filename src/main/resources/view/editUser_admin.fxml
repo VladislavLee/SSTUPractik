@@ -39,11 +39,7 @@
                <children>
                   <AnchorPane layoutX="109.0" layoutY="88.0" prefHeight="446.0" prefWidth="212.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="411.0" AnchorPane.topAnchor="88.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="29.0" text="Логин:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="30.0">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
+
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Пароль:" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="70.0">
                            <font>
                               <Font size="20.0" />
@@ -96,11 +92,7 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField id="login" fx:id="login" layoutX="335.0" layoutY="117.0" maxWidth="300.0" promptText="Логин" AnchorPane.leftAnchor="335.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="117.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
+
 <!--                  <Button id="photoId" fx:id="photo" layoutX="336.0" layoutY="197.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Выбрать фото..." textFill="#00000099" visible="false" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="197.0">-->
 <!--                     <font>-->
 <!--                        <Font size="15.0" />-->

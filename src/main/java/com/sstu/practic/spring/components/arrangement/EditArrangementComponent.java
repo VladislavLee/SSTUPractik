@@ -8,6 +8,7 @@ import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
@@ -16,6 +17,7 @@ import com.sstu.practic.spring.data.model.TbArrangements;
 import com.sstu.practic.spring.data.model.TbChannels;
 import com.sstu.practic.spring.services.ArrangementService;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.event.EventHandler;
@@ -54,6 +56,9 @@ public class EditArrangementComponent extends FxComponent {
     private ListEquipmentsComponent listEquipmentsComponent;
     @Autowired
     private ListMoodComponent listMoodComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
+
     private TbArrangements tbArrangements;
 
     public Scene getScene(TbArrangements tbArrangements) {
@@ -162,15 +167,18 @@ public class EditArrangementComponent extends FxComponent {
 //    }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

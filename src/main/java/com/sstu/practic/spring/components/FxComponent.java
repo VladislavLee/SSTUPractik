@@ -35,7 +35,7 @@ public abstract class FxComponent {
 
     protected Scene scene;
 
-    protected List<Role> getRole(){
+    public List<Role> getRole(){
         return Arrays.asList(Role.ADMIN, Role.USER, Role.EXPERIMENTATOR);
     }
 
@@ -43,7 +43,6 @@ public abstract class FxComponent {
     public Scene getScene() {
         return getRole().contains(securityContext.getUser().getVcRole()) ? scene : mainComponent.getScene();
     }
-
 
 
     public void setScene(Scene scene) {

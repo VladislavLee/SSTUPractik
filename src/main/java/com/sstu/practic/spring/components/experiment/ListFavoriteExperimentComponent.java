@@ -14,6 +14,8 @@ import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.data.model.TbFavoriteExperiment;
 import com.sstu.practic.spring.services.ExperimentService;
 import com.sstu.practic.spring.services.FavoriteExperimentService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -62,7 +64,8 @@ public class ListFavoriteExperimentComponent extends FxComponent{
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private CreateExperimentComponent createExperimentComponent;
-
+    @Autowired
+    private SecurityContext securityContext;
 
 
     private void addExperiment(TbExperiment tbExperiment){
@@ -148,8 +151,12 @@ public class ListFavoriteExperimentComponent extends FxComponent{
 
         tableView.setItems(observableList);
 
-        tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, recordDuration, subjectWeight,
-                experimentComments , actionDelete);
+
+
+        if (tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, recordDuration, subjectWeight,
+                    experimentComments , actionDelete);
+        }
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
@@ -235,10 +242,13 @@ public class ListFavoriteExperimentComponent extends FxComponent{
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

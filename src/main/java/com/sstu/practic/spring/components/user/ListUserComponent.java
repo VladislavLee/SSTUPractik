@@ -2,11 +2,15 @@ package com.sstu.practic.spring.components.user;
 
 import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
+import com.sstu.practic.spring.annotations.PreAuthorize;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.banner.BannerComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
 import com.sstu.practic.spring.data.model.TbUser;
@@ -62,16 +66,17 @@ public class ListUserComponent extends FxComponent {
     private EditUserForAdminComponent editUserForAdminComponent;
     @Autowired
     private SecurityContext securityContext;
+    @Autowired
+    private BannerComponent bannerComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentForUserComponent;
+
     private ObservableList<TbUser> userData = FXCollections.observableArrayList();
 
-    @Override
-    public List<Role> getRole(){
-        return Arrays.asList(Role.ADMIN, Role.EXPERIMENTATOR, Role.USER);
-    }
 
     @Override
-    public Scene getScene(){
-        TableView tableView =(TableView) scene.lookup("#tableUsers");
+    public Scene getScene() {
+        TableView tableView = (TableView) scene.lookup("#tableUsers");
 
         TableColumn<TbUser, String> login
                 = new TableColumn<TbUser, String>("Login");
@@ -88,9 +93,9 @@ public class ListUserComponent extends FxComponent {
         TableColumn<TbUser, String> userComments
                 = new TableColumn<TbUser, String>("Comments ");
         TableColumn actionUpdate =
-                new TableColumn<>("Update");
-        TableColumn actionDelete=
-                new TableColumn("Delete");
+                new TableColumn<>("Обновить");
+        TableColumn actionDelete =
+                new TableColumn("Удалить");
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
@@ -115,7 +120,7 @@ public class ListUserComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbUser, String> param) {
                         final TableCell<TbUser, String> cell = new TableCell<TbUser, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Обновить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -134,9 +139,14 @@ public class ListUserComponent extends FxComponent {
                                             stage.setScene(editUserForAdminComponent.getScene(tbUser));
                                             stage.show();
                                         } else {
-                                            stage.setScene(mainComponent.getScene());
+                                            stage.setScene(bannerComponent.getScene());
                                             stage.show();
                                         }
+
+                                        editUserForAdminComponent.setTextField(tbUser);
+                                        stage.setScene(editUserForAdminComponent.getScene(tbUser));
+                                        stage.show();
+
 
                                     });
                                     setGraphic(btn);
@@ -155,7 +165,7 @@ public class ListUserComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbUser, String> param) {
                         final TableCell<TbUser, String> cell = new TableCell<TbUser, String>() {
 
-                            final Button btn = new Button("DELETE");
+                            final Button btn = new Button("Удалить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -167,6 +177,17 @@ public class ListUserComponent extends FxComponent {
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbUser tbUser = getTableView().getItems().get(getIndex());
+                                        Stage stage = stageHolder.getStage();
+
+                                        if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                                            editUserForAdminComponent.setTextField(tbUser);
+                                            stage.setScene(editUserForAdminComponent.getScene(tbUser));
+                                            stage.show();
+                                        } else {
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        }
+
                                         userService.deleteUsers(tbUser);
                                         list.removeAll(list);
                                         ObservableList<TbUser> lister = getList();
@@ -184,10 +205,11 @@ public class ListUserComponent extends FxComponent {
         actionUpdate.setCellFactory(cellFactory);
         actionDelete.setCellFactory(createButtonDelete);
 
-        tableView.getColumns().addAll(login, password, userFirstName, userSecondName, userLastName,
-                                        role, userComments , actionUpdate, actionDelete);
 
-
+        if(tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(login, password, userFirstName, userSecondName, userLastName,
+                    role, userComments, actionUpdate, actionDelete);
+        }
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
@@ -203,9 +225,8 @@ public class ListUserComponent extends FxComponent {
     }
 
 
-
     @HandleEvent(nodeName = "editUserByUser")
-    public EventPair editUserByUser(){
+    public EventPair editUserByUser() {
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
@@ -226,15 +247,14 @@ public class ListUserComponent extends FxComponent {
     }
 
 
-
     @HandleEvent(nodeName = "createUser")
-    public EventPair createUser(){
+    public EventPair createUser() {
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+            if (securityContext.getUser().getVcRole() == Role.ADMIN) {
 
                 stage.setScene(createUserComponent.getScene());
                 stage.show();
@@ -253,7 +273,7 @@ public class ListUserComponent extends FxComponent {
 
 
     @HandleEvent(nodeName = "buttonListExperimentSubjects")
-    public EventPair transitionToExperimentSubjects(){
+    public EventPair transitionToExperimentSubjects() {
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
@@ -271,15 +291,18 @@ public class ListUserComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentForUserComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);
@@ -290,7 +313,7 @@ public class ListUserComponent extends FxComponent {
 
 
     @HandleEvent(nodeName = "buttonMain")
-    public EventPair transitionToMain(){
+    public EventPair transitionToMain() {
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
@@ -308,7 +331,7 @@ public class ListUserComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListUsers")
-    public EventPair transitionToUsers(){
+    public EventPair transitionToUsers() {
         EventPair pair = new EventPair();
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();

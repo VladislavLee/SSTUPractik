@@ -7,12 +7,15 @@ import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbExperimentType;
 import com.sstu.practic.spring.data.repositories.UserRepository;
 import com.sstu.practic.spring.services.ExperimentTypeService;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.event.EventHandler;
@@ -48,6 +51,8 @@ public class CreateExperimentTypeComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private CreateExperimentTypeComponent createExperimentTypeComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
 
 
     @HandleEvent(nodeName = "buttonCreateExperimentType")
@@ -144,10 +149,13 @@ public class CreateExperimentTypeComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

@@ -1,6 +1,9 @@
-package com.sstu.practic.spring.components;
+package com.sstu.practic.spring.components.banner;
 
+import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
+import com.sstu.practic.spring.components.FxComponent;
+import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.CreateArrangementComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
 import com.sstu.practic.spring.components.auth.LoginComponent;
@@ -23,21 +26,19 @@ import com.sstu.practic.spring.components.mood.CreateMoodComponent;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.CreateProcessingMethodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
+import com.sstu.practic.spring.components.user.CreateUserComponent;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.services.security.LoginService;
 import com.sstu.practic.spring.services.security.SecurityContext;
-import com.sstu.practic.spring.services.security.entites.Role;
-import com.sstu.practic.spring.utils.entities.EventPair;
-import com.sstu.practic.spring.annotations.HandleEvent;
-import com.sstu.practic.spring.components.user.CreateUserComponent;
 import com.sstu.practic.spring.utils.StageHolder;
+import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@JavaFxComponent(path = "/view/oldPages/menu.fxml")
-public class MainComponent extends FxComponent {
+@JavaFxComponent(path = "/view/Banner.fxml")
+public class BannerComponent extends FxComponent {
     @Autowired
     private CreateProcessingMethodComponent createProcessingMethodComponent;
     @Autowired
@@ -92,7 +93,6 @@ public class MainComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private ListMyExperimentForUserComponent listMyExperimentForUserComponent;
-
     @Autowired
     private SecurityContext securityContext;
 
@@ -107,6 +107,7 @@ public class MainComponent extends FxComponent {
             stage.setScene(listUserComponent.getScene());
             stage.show();
         };
+
 
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);
@@ -132,40 +133,15 @@ public class MainComponent extends FxComponent {
         return pair;
     }
 
-
-    @HandleEvent(nodeName = "buttonSignIn")
-    public EventPair signIn(){
-        EventPair pair = new EventPair();
-
-        EventHandler eventHandler = (x) -> {
-            Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(loginComponent.getScene());
-            stage.show();
-        };
-
-        pair.setEventHandler(eventHandler);
-        pair.setEventType(MouseEvent.MOUSE_CLICKED);
-
-        return pair;
-    }
-
-
     @HandleEvent(nodeName = "buttonListExperiments")
     public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-            if(securityContext.getUser().getVcRole() == Role.ADMIN){
-                stage.setScene(listExperimentComponent.getScene());
-                stage.show();
-            } else {
-                stage.setScene(listMyExperimentForUserComponent.getScene());
-                stage.show();
-            }
 
+            stage.setScene(listExperimentComponent.getScene());
+            stage.show();
 
         };
 
@@ -182,6 +158,7 @@ public class MainComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
+
             stage.setScene(mainComponent.getScene());
             stage.show();
         };
@@ -192,4 +169,3 @@ public class MainComponent extends FxComponent {
         return pair;
     }
 }
-

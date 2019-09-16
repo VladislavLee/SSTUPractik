@@ -5,6 +5,7 @@ import com.sstu.practic.spring.annotations.HandleEvent;
 import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.processingMethod.CreateProcessingMethodComponent;
 import com.sstu.practic.spring.components.user.CreateUserComponent;
 import com.sstu.practic.spring.data.model.TbChannels;
@@ -37,8 +38,8 @@ public class CreateChannelComponent extends FxComponent {
     private StageHolder stageHolder;
     @Autowired
     private SecurityContext securityContext;
-
-
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
     
 
     @HandleEvent(nodeName = "buttonCreateChannel")
@@ -66,5 +67,8 @@ public class CreateChannelComponent extends FxComponent {
 
         return pair;
     }
+
+
+
 
 }

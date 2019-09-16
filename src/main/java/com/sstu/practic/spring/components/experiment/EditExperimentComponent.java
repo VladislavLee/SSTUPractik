@@ -15,8 +15,11 @@ import com.sstu.practic.spring.data.model.*;
 import com.sstu.practic.spring.data.repositories.UserRepository;
 import com.sstu.practic.spring.services.*;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -81,16 +84,18 @@ public class EditExperimentComponent extends FxComponent {
     private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
     @Autowired
     private MainComponent mainComponent;
+    @Autowired
+    private UserService userService;
+
+
+    private MultipleSelectionModel<TbUser> usersSelectionModel;
+
 
 
     private byte[] byteAgreement;
-
     private byte[] byteProtocol1;
-
     private byte[] byteProtocol2;
-
     private byte[] byteProtocol3;
-
 
 
     private TbExperiment tbExperiment;
@@ -108,6 +113,8 @@ public class EditExperimentComponent extends FxComponent {
         TextField recordDuration = (TextField) scene.lookup("#recordDuration");
         Slider motivationLevel = (Slider) scene.lookup("#motivationLevel");
         Slider restLevel = (Slider) scene.lookup("#restLevel");
+        ListView userGroup = (ListView) scene.lookup("#userGroup");
+
 
         LocalDate dateTime = tbExperiment.getVcDate();
         motivationLevel.setValue(tbExperiment.getVcMotivationLevel());
@@ -116,7 +123,10 @@ public class EditExperimentComponent extends FxComponent {
         experimentComments.setText(tbExperiment.getVcDescription());
         subjectWeight.setText(tbExperiment.getVcSubjectWeight());
         recordDuration.setText(tbExperiment.getVcRecordDuration());
+
     }
+
+
 
     @HandleEvent(nodeName = "buttonEditExperiment")
     public EventPair eventHandler() {
@@ -154,6 +164,10 @@ public class EditExperimentComponent extends FxComponent {
             tbExperiment.setVcProtocol1(byteProtocol1);
             tbExperiment.setVcProtocol2(byteProtocol2);
             tbExperiment.setVcProtocol3(byteProtocol3);
+
+
+
+
             experimentService.updateExperiment(tbExperiment);
 
             stage.setScene(listExperimentComponent.getScene());
@@ -309,6 +323,11 @@ public class EditExperimentComponent extends FxComponent {
         return list;
     }
 
+    private ObservableList<TbUser> getUserList() {
+        List<TbUser> users = userService.getAllUsers();
+        ObservableList<TbUser> list = FXCollections.observableArrayList(users);
+        return list;
+    }
 
     @PostConstruct
     public void init(){
@@ -334,6 +353,22 @@ public class EditExperimentComponent extends FxComponent {
         ObservableList<TbMood> moods = getMoodList();
         List<String> fieldNameList4 = moods.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
         checkedIsEmptyList(fieldNameList4, choiceBox4);
+
+//        ListView userGroup = (ListView) scene.lookup("#userGroup");
+//        ObservableList<TbUser> users = getUserList();
+//        userGroup.setItems(users);
+//
+//        usersSelectionModel = userGroup.getSelectionModel();
+//        usersSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+//
+//        usersSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
+//            @Override
+//            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+//
+//            }
+//        });
+
+
     }
 
 
@@ -419,10 +454,13 @@ public class EditExperimentComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

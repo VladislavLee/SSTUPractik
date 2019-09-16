@@ -7,6 +7,8 @@ import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
@@ -56,6 +58,10 @@ public class EditEquipmentComponent extends FxComponent {
     private ListMoodComponent listMoodComponent;
     @Autowired
     private CreateEquipmentComponent createEquipmentComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
 
 
     private TbEquipment tbEquipment;
@@ -249,11 +255,15 @@ public class EditEquipmentComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
+
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);
 

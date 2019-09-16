@@ -18,6 +18,7 @@ import com.sstu.practic.spring.services.ExperimentService;
 import com.sstu.practic.spring.services.FavoriteExperimentService;
 import com.sstu.practic.spring.services.MyExperimentService;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -80,7 +81,6 @@ public class ListMyExperimentComponent extends FxComponent {
     @Autowired
     private CreateExperimentComponent createExperimentComponent;
 
-
     @Override
     public Scene getScene() {
         TableView tableView =(TableView) scene.lookup("#listMyExperiment");
@@ -102,11 +102,11 @@ public class ListMyExperimentComponent extends FxComponent {
         TableColumn< TbExperiment, String> experimentComments
                 = new TableColumn<TbExperiment, String>("Коментарии");
         TableColumn actionAddFavorite
-                = new TableColumn("AddFavorite");
+                = new TableColumn("Добавить в избранные");
         TableColumn actionUpdate
-                = new TableColumn<>("Update");
+                = new TableColumn<>("Обновить");
         TableColumn actionDelete
-                = new TableColumn("Delete");
+                = new TableColumn("Удалить");
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
@@ -137,7 +137,7 @@ public class ListMyExperimentComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbExperiment, String> param) {
                         final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Обновить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -150,10 +150,16 @@ public class ListMyExperimentComponent extends FxComponent {
                                     btn.setOnAction(event -> {
                                         TbExperiment tbExperiment = getTableView().getItems().get(getIndex());
                                         Stage stage = stageHolder.getStage();
-                                        editExperimentComponent.setTextField(tbExperiment);
-                                        stage.setScene(editExperimentComponent.getScene(tbExperiment));
-                                        stage.show();
-                                        list.removeAll(list);
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(mainComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            editExperimentComponent.setTextField(tbExperiment);
+                                            stage.setScene(editExperimentComponent.getScene(tbExperiment));
+                                            stage.show();
+                                            list.removeAll(list);
+                                        }
 
                                     });
                                     setGraphic(btn);
@@ -172,7 +178,7 @@ public class ListMyExperimentComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbExperiment, String> param) {
                         final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
 
-                            final Button btn = new Button("DELETE");
+                            final Button btn = new Button("Удалить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -207,7 +213,7 @@ public class ListMyExperimentComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbExperiment, String> param) {
                         final TableCell<TbExperiment, String> cell = new TableCell<TbExperiment, String>() {
 
-                            final Button btn = new Button("addFavorite");
+                            final Button btn = new Button("Добавить в избранные");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -235,12 +241,14 @@ public class ListMyExperimentComponent extends FxComponent {
         actionDelete.setCellFactory(createButtonDelete);
 
 
-        tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, recordDuration, subjectWeight,
-                experimentComments, actionAddFavorite, actionUpdate, actionDelete );
+        if (tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(experimentType, experimentSubject, experimentDesign, mood, date, recordDuration, subjectWeight,
+                    experimentComments, actionAddFavorite, actionUpdate, actionDelete);
+        }
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
-        root.getChildren().add(tableView);
+//        root.getChildren().add(tableView);
         this.scene.setRoot(root);
         return scene;
     }
@@ -250,8 +258,6 @@ public class ListMyExperimentComponent extends FxComponent {
         ObservableList<TbExperiment> list = FXCollections.observableArrayList(experiments);
         return list;
     }
-
-
 
 
 
@@ -319,10 +325,13 @@ public class ListMyExperimentComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

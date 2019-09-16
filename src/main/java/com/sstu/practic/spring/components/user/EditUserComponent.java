@@ -5,6 +5,8 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.data.model.TbProcessingMethod;
 import com.sstu.practic.spring.data.model.TbUser;
@@ -42,6 +44,9 @@ public class EditUserComponent extends FxComponent {
     private ListExperimentSubject listExperimentSubject;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentForUserComponent;
+
     private TbUser tbUser;
 
 
@@ -57,7 +62,7 @@ public class EditUserComponent extends FxComponent {
 
 
     public void setTextField(TbUser tbUser) {
-        TextField login = (TextField) scene.lookup("#login");
+
         PasswordField password = (PasswordField) scene.lookup("#password");
         TextField firstName = (TextField) scene.lookup("#userFirstName");
         TextField secondName = (TextField) scene.lookup("#userSecondName");
@@ -65,7 +70,7 @@ public class EditUserComponent extends FxComponent {
         TextArea comments = (TextArea) scene.lookup("#userComments");
 
 
-        login.setText(tbUser.getVcLogin());
+
         password.setText(tbUser.getVcPassword());
         firstName.setText(tbUser.getVcFirstName());
         secondName.setText(tbUser.getVcSecondName());
@@ -81,14 +86,14 @@ public class EditUserComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            String login = ((TextField) scene.lookup("#login")).getText();
+
             String password = ((PasswordField) scene.lookup("#password")).getText();
             String firstName = ((TextField) scene.lookup("#userFirstName")).getText();
             String secondName = ((TextField) scene.lookup("#userSecondName")).getText();
             String lastName = ((TextField) scene.lookup("#userLastName")).getText();
             String comments = ((TextArea) scene.lookup("#userComments")).getText();
 
-            tbUser.setVcLogin(login);
+
             tbUser.setVcPassword(password);
             tbUser.setVcFirstName(firstName);
             tbUser.setVcSecondName(secondName);
@@ -128,15 +133,18 @@ public class EditUserComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentForUserComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

@@ -5,15 +5,20 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.banner.BannerComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbExperimentSubject;
 import com.sstu.practic.spring.services.ExperimentSubjectService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -32,7 +37,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @JavaFxComponent(path = "/view/listSubject.fxml")
@@ -65,6 +69,15 @@ public class ListExperimentSubject extends FxComponent {
     private ListMoodComponent listMoodComponent;
     @Autowired
     private CreateExperimentSubjectComponent createExperimentSubjectComponent;
+    @Autowired
+    private SecurityContext securityContext;
+    @Autowired
+    private BannerComponent bannerComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
+
 
     @Override
     public Scene getScene() {
@@ -89,9 +102,9 @@ public class ListExperimentSubject extends FxComponent {
         TableColumn<TbExperimentSubject, String> subjectComments
                 = new TableColumn<TbExperimentSubject, String>("subjectComments ");
         TableColumn actionUpdate
-                = new TableColumn<>("Update");
+                = new TableColumn<>("Обновить");
         TableColumn actionDelete
-                = new TableColumn("Delete");
+                = new TableColumn("Удалить");
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
@@ -107,7 +120,7 @@ public class ListExperimentSubject extends FxComponent {
                     public TableCell call(final TableColumn<TbExperimentSubject, String> param) {
                         final TableCell<TbExperimentSubject, String> cell = new TableCell<TbExperimentSubject, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Обновить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -119,10 +132,20 @@ public class ListExperimentSubject extends FxComponent {
                                     btn.setId("Update");
                                     btn.setOnAction(event -> {
                                         TbExperimentSubject tbExperimentSubject = getTableView().getItems().get(getIndex());
-                                        editExperimentSubjectComponent.setTextField(tbExperimentSubject);
+
+
                                         Stage stage = stageHolder.getStage();
-                                        stage.setScene(editExperimentSubjectComponent.getScene(tbExperimentSubject));
-                                        stage.show();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            editExperimentSubjectComponent.setTextField(tbExperimentSubject);
+                                            stage.setScene(editExperimentSubjectComponent.getScene(tbExperimentSubject));
+                                            stage.show();
+                                        }
+
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -140,7 +163,7 @@ public class ListExperimentSubject extends FxComponent {
                     public TableCell call(final TableColumn<TbExperimentSubject, String> param) {
                         final TableCell<TbExperimentSubject, String> cell = new TableCell<TbExperimentSubject, String>() {
 
-                            final Button btn = new Button("DELETE");
+                            final Button btn = new Button("Удалить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -152,10 +175,19 @@ public class ListExperimentSubject extends FxComponent {
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbExperimentSubject tbExperimentSubject = getTableView().getItems().get(getIndex());
-                                        experimentSubjectService.deleteSubject(tbExperimentSubject);
-                                        list.removeAll(list);
-                                        ObservableList<TbExperimentSubject> lister = getList();
-                                        tableView.setItems(lister);
+
+                                        Stage stage = stageHolder.getStage();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            experimentSubjectService.deleteSubject(tbExperimentSubject);
+                                            list.removeAll(list);
+                                            ObservableList<TbExperimentSubject> lister = getList();
+                                            tableView.setItems(lister);
+                                        }
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -184,9 +216,13 @@ public class ListExperimentSubject extends FxComponent {
         actionUpdate.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         actionDelete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-        tableView.getColumns().addAll(subjectFirstName, subjectSecondName,
-                subjectLastName, gender, leadingHand, leadingEye, leadingLeg, subjectComments, actionUpdate, actionDelete );
 
+
+
+        if (tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(subjectFirstName, subjectSecondName,
+                    subjectLastName, gender, leadingHand, leadingEye, leadingLeg, subjectComments, actionUpdate, actionDelete);
+        }
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
@@ -219,9 +255,7 @@ public class ListExperimentSubject extends FxComponent {
     }
 
 
-
 //    navigation
-
 
     @HandleEvent(nodeName = "buttonEquipment")
     public EventPair transitionToEquipment(){
@@ -248,8 +282,9 @@ public class ListExperimentSubject extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-            stage.setScene(listChannelComponent.getScene());
-            stage.show();
+                stage.setScene(listChannelComponent.getScene());
+                stage.show();
+
         };
 
         pair.setEventHandler(eventHandler);
@@ -351,15 +386,18 @@ public class ListExperimentSubject extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

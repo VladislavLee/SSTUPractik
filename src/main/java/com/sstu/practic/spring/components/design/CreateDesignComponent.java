@@ -17,6 +17,7 @@ import com.sstu.practic.spring.data.model.TbExperimentDesign;
 import com.sstu.practic.spring.services.ArrangementService;
 import com.sstu.practic.spring.services.ExperimentDesignService;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -67,6 +68,7 @@ public class CreateDesignComponent extends FxComponent {
     private ListMyExperimentComponent listMyExperimentComponent;
     @Autowired
     private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
+
 
 
     @HandleEvent(nodeName = "buttonCreateDesign")
@@ -141,15 +143,18 @@ public class CreateDesignComponent extends FxComponent {
 
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

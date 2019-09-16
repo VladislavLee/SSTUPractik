@@ -5,8 +5,11 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.banner.BannerComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.EditProcessingMethodComponent;
@@ -15,6 +18,8 @@ import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbEquipment;
 import com.sstu.practic.spring.data.model.TbExperiment;
 import com.sstu.practic.spring.services.EquipmentService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -68,7 +73,14 @@ public class ListEquipmentsComponent extends FxComponent {
     private ListMoodComponent listMoodComponent;
     @Autowired
     private CreateEquipmentComponent createEquipmentComponent;
-
+    @Autowired
+    private SecurityContext securityContext;
+    @Autowired
+    private BannerComponent bannerComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentComponent;
 
     @Override
     public Scene getScene() {
@@ -83,9 +95,9 @@ public class ListEquipmentsComponent extends FxComponent {
         TableColumn< TbEquipment, String> certificateOutput
                 = new TableColumn<TbEquipment, String>("Выходные данные сертификата");
         TableColumn actionUpdate
-                = new TableColumn<>("Update");
+                = new TableColumn<>("Обновить");
         TableColumn actionDelete
-                = new TableColumn("Delete");
+                = new TableColumn("Удалить");
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
@@ -165,7 +177,7 @@ public class ListEquipmentsComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbEquipment, String> param) {
                         final TableCell<TbEquipment, String> cell = new TableCell<TbEquipment, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Обновить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -178,9 +190,17 @@ public class ListEquipmentsComponent extends FxComponent {
                                     btn.setOnAction(event -> {
                                         TbEquipment tbEquipment = getTableView().getItems().get(getIndex());
                                         Stage stage = stageHolder.getStage();
-                                        editEquipmentComponent.setTextField(tbEquipment);
-                                        stage.setScene(editEquipmentComponent.getScene(tbEquipment));
-                                        stage.show();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            editEquipmentComponent.setTextField(tbEquipment);
+                                            stage.setScene(editEquipmentComponent.getScene(tbEquipment));
+                                            stage.show();
+                                        }
+
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -198,7 +218,7 @@ public class ListEquipmentsComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbEquipment, String> param) {
                         final TableCell<TbEquipment, String> cell = new TableCell<TbEquipment, String>() {
 
-                            final Button btn = new Button("DELETE");
+                            final Button btn = new Button("Удалить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -210,10 +230,20 @@ public class ListEquipmentsComponent extends FxComponent {
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbEquipment tbEquipment = getTableView().getItems().get(getIndex());
-                                        equipmentService.deleteEquipments(tbEquipment);
-                                        list.removeAll(list);
-                                        ObservableList<TbEquipment> lister = getList();
-                                        tableView.setItems(lister);
+                                        Stage stage = stageHolder.getStage();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                           equipmentService.deleteEquipments(tbEquipment);
+                                            list.removeAll(list);
+                                            ObservableList<TbEquipment> lister = getList();
+                                            tableView.setItems(lister);
+                                        }
+
+
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -229,7 +259,12 @@ public class ListEquipmentsComponent extends FxComponent {
         actionDelete.setCellFactory(createButtonDelete);
         certificatePath.setCellFactory(certificate);
 
-        tableView.getColumns().addAll(equipmentName, equipmentSpecification, certificatePath,  actionUpdate, actionDelete );
+
+
+        if (tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(equipmentName, equipmentSpecification, certificatePath,  actionUpdate, actionDelete);
+        }
+
 
         Pane root = (Pane) this.scene.getRoot();
         root.setPadding(new Insets(10));
@@ -396,11 +431,15 @@ public class ListEquipmentsComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
+
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);
 

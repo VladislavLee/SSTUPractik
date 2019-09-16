@@ -25,5 +25,4 @@ public class SecurityContext {
             userRepository.save(TbUser.builder().vcLogin("user").vcPassword("111").vcRole(Role.ADMIN).build());
         }
     }
-
 }

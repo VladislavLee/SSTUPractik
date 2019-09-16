@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.Objects;
 
 
 @Entity
@@ -37,4 +38,21 @@ public class TbUser {
 
     private String vcComments;
 
+    @Override
+    public String toString() {
+        return vcFirstName + " " + vcLastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TbUser user = (TbUser) o;
+        return idUser.equals(user.idUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idUser);
+    }
 }

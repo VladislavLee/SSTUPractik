@@ -5,6 +5,8 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.data.model.TbUser;
 import com.sstu.practic.spring.data.repositories.UserRepository;
@@ -45,6 +47,8 @@ public class CreateUserComponent extends FxComponent {
     private ListExperimentSubject listExperimentSubject;
     @Autowired
     private ListExperimentComponent listExperimentComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentForUserComponent;
 
     private byte[] bytePhoto;
 
@@ -155,15 +159,18 @@ public class CreateUserComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentForUserComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

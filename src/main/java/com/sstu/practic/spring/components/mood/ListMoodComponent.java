@@ -5,15 +5,20 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.banner.BannerComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbMood;
 import com.sstu.practic.spring.services.MoodService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -62,6 +67,12 @@ public class ListMoodComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private CreateMoodComponent createMoodComponent;
+    @Autowired
+    private SecurityContext securityContext;
+    @Autowired
+    private BannerComponent bannerComponent;
+    @Autowired
+    private ListMyExperimentComponent listMyExperimentForUserComponent;
 
     @Override
     public Scene getScene() {
@@ -73,8 +84,8 @@ public class ListMoodComponent extends FxComponent {
         TableColumn<TbMood, String> moodDescription
                 = new TableColumn<TbMood, String>("Описание");
 
-        TableColumn actionUpdate = new TableColumn<>("Update");
-        TableColumn actionDelete= new TableColumn("Delete");
+        TableColumn actionUpdate = new TableColumn<>("Обновить");
+        TableColumn actionDelete= new TableColumn("Удалить");
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
@@ -95,7 +106,7 @@ public class ListMoodComponent extends FxComponent {
                     public  TableCell call(final TableColumn<TbMood, String> param) {
                         final TableCell<TbMood, String> cell = new TableCell<TbMood, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Обновить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -108,9 +119,16 @@ public class ListMoodComponent extends FxComponent {
                                     btn.setOnAction(event -> {
                                         TbMood tbMood = getTableView().getItems().get(getIndex());
                                         Stage stage = stageHolder.getStage();
-                                        editMoodComponent.setTextField(tbMood);
-                                        stage.setScene(editMoodComponent.getScene(tbMood));
-                                        stage.show();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            editMoodComponent.setTextField(tbMood);
+                                            stage.setScene(editMoodComponent.getScene(tbMood));
+                                            stage.show();
+                                        }
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -128,7 +146,7 @@ public class ListMoodComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbMood, String> param) {
                         final TableCell<TbMood, String> cell = new TableCell<TbMood, String>() {
 
-                            final Button btn = new Button("DELETE");
+                            final Button btn = new Button("Удалить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -140,10 +158,21 @@ public class ListMoodComponent extends FxComponent {
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbMood tbMood = getTableView().getItems().get(getIndex());
-                                        moodService.deleteMood(tbMood);
-                                        list.removeAll(list);
-                                        ObservableList<TbMood> lister = getList();
-                                        tableView.setItems(lister);
+
+                                        Stage stage = stageHolder.getStage();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            moodService.deleteMood(tbMood);
+                                            list.removeAll(list);
+                                            ObservableList<TbMood> lister = getList();
+                                            tableView.setItems(lister);
+                                        }
+
+
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -161,7 +190,10 @@ public class ListMoodComponent extends FxComponent {
 
 
 
-        tableView.getColumns().addAll(moodName, moodDescription, actionUpdate, actionDelete );
+
+        if (tableView.getColumns().isEmpty()) {
+            tableView.getColumns().addAll(moodName, moodDescription, actionUpdate, actionDelete);
+        }
 
 
         Pane root = (Pane) this.scene.getRoot();
@@ -189,15 +221,6 @@ public class ListMoodComponent extends FxComponent {
 
         return pair;
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -283,10 +306,13 @@ public class ListMoodComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentForUserComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

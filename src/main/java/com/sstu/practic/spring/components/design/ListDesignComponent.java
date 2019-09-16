@@ -5,6 +5,7 @@ import com.sstu.practic.spring.annotations.JavaFxComponent;
 import com.sstu.practic.spring.components.FxComponent;
 import com.sstu.practic.spring.components.MainComponent;
 import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
+import com.sstu.practic.spring.components.banner.BannerComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListFavoriteExperimentComponent;
@@ -16,6 +17,8 @@ import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbEquipment;
 import com.sstu.practic.spring.data.model.TbExperimentDesign;
 import com.sstu.practic.spring.services.ExperimentDesignService;
+import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -67,7 +70,10 @@ public class ListDesignComponent extends FxComponent {
     private ListMyExperimentComponent listMyExperimentComponent;
     @Autowired
     private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
-
+    @Autowired
+    private SecurityContext securityContext;
+    @Autowired
+    private BannerComponent bannerComponent;
 
 
     @Override
@@ -83,9 +89,9 @@ public class ListDesignComponent extends FxComponent {
         TableColumn< TbEquipment, String> arrangement
                 = new TableColumn<TbEquipment, String>("Датчик");
         TableColumn actionUpdate
-                = new TableColumn<>("Update");
+                = new TableColumn<>("Обновить");
         TableColumn actionDelete
-                = new TableColumn("Delete");
+                = new TableColumn("Удалить");
 
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
@@ -110,7 +116,7 @@ public class ListDesignComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbExperimentDesign, String> param) {
                         final TableCell<TbExperimentDesign, String> cell = new TableCell<TbExperimentDesign, String>() {
 
-                            final Button btn = new Button("UPDATE");
+                            final Button btn = new Button("Обновить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -123,9 +129,16 @@ public class ListDesignComponent extends FxComponent {
                                     btn.setOnAction(event -> {
                                         TbExperimentDesign tbExperimentDesign = getTableView().getItems().get(getIndex());
                                         Stage stage = stageHolder.getStage();
-                                        editDesignComponent.setTextField(tbExperimentDesign);
-                                        stage.setScene(editDesignComponent.getScene(tbExperimentDesign));
-                                        stage.show();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                            editDesignComponent.setTextField(tbExperimentDesign);
+                                            stage.setScene(editDesignComponent.getScene(tbExperimentDesign));
+                                            stage.show();
+                                        }
+
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -143,7 +156,7 @@ public class ListDesignComponent extends FxComponent {
                     public TableCell call(final TableColumn<TbExperimentDesign, String> param) {
                         final TableCell<TbExperimentDesign, String> cell = new TableCell<TbExperimentDesign, String>() {
 
-                            final Button btn = new Button("DELETE");
+                            final Button btn = new Button("Удалить");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -155,10 +168,18 @@ public class ListDesignComponent extends FxComponent {
                                     btn.setId("Delete");
                                     btn.setOnAction(event -> {
                                         TbExperimentDesign tbExperimentDesign = getTableView().getItems().get(getIndex());
-                                        experimentDesignService.deleteExperimentDesign(tbExperimentDesign);
-                                        list.removeAll(list);
-                                        ObservableList<TbExperimentDesign> lister = getList();
-                                        tableView.setItems(lister);
+
+                                        Stage stage = stageHolder.getStage();
+
+                                        if(securityContext.getUser().getVcRole() == Role.USER){
+                                            stage.setScene(bannerComponent.getScene());
+                                            stage.show();
+                                        } else {
+                                             experimentDesignService.deleteExperimentDesign(tbExperimentDesign);
+                                            list.removeAll(list);
+                                            ObservableList<TbExperimentDesign> lister = getList();
+                                            tableView.setItems(lister);
+                                        }
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -170,15 +191,11 @@ public class ListDesignComponent extends FxComponent {
                 };
 
 
-
         actionUpdate.setCellFactory(cellFactory);
         actionDelete.setCellFactory(createButtonDelete);
 
 
-
-
-        tableView.getColumns().addAll(designName, designDescription, designSampling, arrangement , actionUpdate, actionDelete );
-
+        tableView.getColumns().addAll(designName, designDescription, designSampling, arrangement , actionUpdate, actionDelete);
 
 
         Pane root = (Pane) this.scene.getRoot();
@@ -199,7 +216,6 @@ public class ListDesignComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-
             stage.setScene(createDesignComponent.getScene());
             stage.show();
         };
@@ -211,11 +227,7 @@ public class ListDesignComponent extends FxComponent {
     }
 
 
-
-
-
     //    navigation
-
     @HandleEvent(nodeName = "buttonMain")
     public EventPair transitionToMain(){
         EventPair pair = new EventPair();
@@ -236,15 +248,18 @@ public class ListDesignComponent extends FxComponent {
 
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listExperimentComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);
@@ -308,7 +323,6 @@ public class ListDesignComponent extends FxComponent {
         return pair;
     }
 
-
     @HandleEvent(nodeName = "buttonMyExperiment")
     public EventPair transitionToMyExperiment(){
         EventPair pair = new EventPair();
@@ -359,6 +373,4 @@ public class ListDesignComponent extends FxComponent {
 
         return pair;
     }
-
-
 }

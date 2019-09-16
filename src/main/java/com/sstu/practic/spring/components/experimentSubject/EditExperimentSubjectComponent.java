@@ -8,6 +8,7 @@ import com.sstu.practic.spring.components.arrangement.ListArrangementComponent;
 import com.sstu.practic.spring.components.channel.ListChannelComponent;
 import com.sstu.practic.spring.components.design.ListDesignComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
+import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListFavoriteExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
@@ -19,6 +20,7 @@ import com.sstu.practic.spring.data.repositories.UserRepository;
 import com.sstu.practic.spring.services.ExperimentSubjectService;
 import com.sstu.practic.spring.services.FavoriteExperimentService;
 import com.sstu.practic.spring.services.security.SecurityContext;
+import com.sstu.practic.spring.services.security.entites.Role;
 import com.sstu.practic.spring.utils.StageHolder;
 import com.sstu.practic.spring.utils.entities.EventPair;
 import javafx.collections.FXCollections;
@@ -65,6 +67,8 @@ public class EditExperimentSubjectComponent extends FxComponent {
     private FavoriteExperimentService favoriteExperimentService;
     @Autowired
     private ListMyExperimentComponent listMyExperimentComponent;
+    @Autowired
+    private ListExperimentComponent listExperimentComponent;
     @Autowired
     private ListFavoriteExperimentComponent listFavoriteExperimentComponent;
     @Autowired
@@ -226,15 +230,18 @@ public class EditExperimentSubjectComponent extends FxComponent {
     }
 
     @HandleEvent(nodeName = "buttonListExperiments")
-    public EventPair transitionToListExperiments(){
+    public EventPair eventPair3(){
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
-
-
-            stage.setScene(listDesignComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole() == Role.ADMIN){
+                stage.setScene(listExperimentComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(listMyExperimentComponent.getScene());
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);

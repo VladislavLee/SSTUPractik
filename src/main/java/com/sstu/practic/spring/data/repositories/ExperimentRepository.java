@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface ExperimentRepository extends CrudRepository<TbExperiment, Integer> {
     public List<TbExperiment> findByIdUser(Integer id);
 
-//    public List<TbExperiment> findByUserListContains(TbUser user);
+    public List<TbExperiment> findByUserListContains(TbUser user);
 
     @Override
     @Transactional

@@ -30,11 +30,15 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,15 +92,13 @@ public class EditExperimentComponent extends FxComponent {
     private UserService userService;
 
 
-    private MultipleSelectionModel<TbUser> usersSelectionModel;
-
-
-
     private byte[] byteAgreement;
     private byte[] byteProtocol1;
     private byte[] byteProtocol2;
     private byte[] byteProtocol3;
 
+
+    private MultipleSelectionModel<TbUser> userSelectionModel;
 
     private TbExperiment tbExperiment;
 
@@ -105,7 +107,6 @@ public class EditExperimentComponent extends FxComponent {
         return scene;
     }
 
-
     public void setTextField(TbExperiment tbExperiment) {
         DatePicker date = (DatePicker) scene.lookup("#date");
         TextArea experimentComments = (TextArea) scene.lookup("#experimentComments");
@@ -113,7 +114,6 @@ public class EditExperimentComponent extends FxComponent {
         TextField recordDuration = (TextField) scene.lookup("#recordDuration");
         Slider motivationLevel = (Slider) scene.lookup("#motivationLevel");
         Slider restLevel = (Slider) scene.lookup("#restLevel");
-        ListView userGroup = (ListView) scene.lookup("#userGroup");
 
 
         LocalDate dateTime = tbExperiment.getVcDate();
@@ -125,8 +125,6 @@ public class EditExperimentComponent extends FxComponent {
         recordDuration.setText(tbExperiment.getVcRecordDuration());
 
     }
-
-
 
     @HandleEvent(nodeName = "buttonEditExperiment")
     public EventPair eventHandler() {
@@ -159,16 +157,16 @@ public class EditExperimentComponent extends FxComponent {
             tbExperiment.setVcExperimentSubject(experimentSubject);
             tbExperiment.setVcExperimentDesign(experimentDesign);
             tbExperiment.setVcMood(mood);
-
+//            tbExperiment.setUserList(usersSelectionModel.getSelectedItems());
             tbExperiment.setVcAgreement(byteAgreement);
             tbExperiment.setVcProtocol1(byteProtocol1);
             tbExperiment.setVcProtocol2(byteProtocol2);
             tbExperiment.setVcProtocol3(byteProtocol3);
 
-
-
+            experimentService.addUserList(tbExperiment, userSelectionModel.getSelectedItems());
 
             experimentService.updateExperiment(tbExperiment);
+
 
             stage.setScene(listExperimentComponent.getScene());
             stage.show();
@@ -305,6 +303,7 @@ public class EditExperimentComponent extends FxComponent {
     }
 
 
+
     private ObservableList<TbExperimentSubject> getExperimentSubjectList() {
         List<TbExperimentSubject> subjects = experimentSubjectService.getAllUSubject();
         ObservableList<TbExperimentSubject> list = FXCollections.observableArrayList(subjects);
@@ -322,12 +321,28 @@ public class EditExperimentComponent extends FxComponent {
         ObservableList<TbMood> list = FXCollections.observableArrayList(moods);
         return list;
     }
-
     private ObservableList<TbUser> getUserList() {
         List<TbUser> users = userService.getAllUsers();
         ObservableList<TbUser> list = FXCollections.observableArrayList(users);
         return list;
     }
+
+
+    private ObservableList<TbUser> getCurrentGroup(){
+        List<TbUser> list2 = new ArrayList<TbUser>();
+
+        ObservableList<TbUser> list3 = FXCollections.observableArrayList(list2);
+
+        try {
+            List<TbUser> users = tbExperiment.getUserList();
+            ObservableList<TbUser> list = FXCollections.observableArrayList(users);
+            list2 = list;
+            return list3;
+        } catch (NullPointerException e){
+            return list3;
+        }
+    }
+
 
     @PostConstruct
     public void init(){
@@ -354,20 +369,24 @@ public class EditExperimentComponent extends FxComponent {
         List<String> fieldNameList4 = moods.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
         checkedIsEmptyList(fieldNameList4, choiceBox4);
 
-//        ListView userGroup = (ListView) scene.lookup("#userGroup");
-//        ObservableList<TbUser> users = getUserList();
-//        userGroup.setItems(users);
-//
-//        usersSelectionModel = userGroup.getSelectionModel();
-//        usersSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
-//
-//        usersSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
-//            @Override
-//            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-//
-//            }
-//        });
+//        ChoiceBox choiceBox5 =(ChoiceBox) scene.lookup("#currentGroup");
+//        ObservableList<TbUser> group = getCurrentGroup();
+//        List<String> fieldNameList5 = group.stream().map(urEntity -> urEntity.getVcFirstName()+" "+ urEntity.getVcSecondName()).collect(Collectors.toList());
+//        checkedIsEmptyList(fieldNameList5, choiceBox5);
 
+        ListView userGroup = (ListView) scene.lookup("#userGroup");
+        ObservableList<TbUser> users = getUserList();
+        userGroup.setItems(users);
+
+        userSelectionModel = userGroup.getSelectionModel();
+        userSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+        userSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+            }
+        });
 
     }
 
@@ -385,8 +404,6 @@ public class EditExperimentComponent extends FxComponent {
         }
         return choiceBox;
     }
-
-
 
 
 

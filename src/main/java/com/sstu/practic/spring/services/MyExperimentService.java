@@ -19,7 +19,7 @@ public class MyExperimentService {
 
     public List<TbExperiment> getMyExperiment(Integer id) {
         List<TbExperiment> experiments = experimentRepository.findByIdUser(id);
-//        experiments.addAll(experimentRepository.findByUserListContains(securityContext.getUser()));
+        experiments.addAll(experimentRepository.findByUserListContains(securityContext.getUser()));
         return experiments;
     }
 }

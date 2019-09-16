@@ -6,10 +6,12 @@ import com.sstu.practic.spring.data.repositories.ExperimentRepository;
 import com.sstu.practic.spring.data.repositories.FavoriteExperimentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 @Component
 public class ExperimentService {
@@ -21,25 +23,25 @@ public class ExperimentService {
     private FavoriteExperimentService favoriteExperimentService;
 
 
-//    public void addUserList(TbExperiment tbExperiment, List<TbUser> newUsers){
-//        List<TbUser> users = tbExperiment.getUserList();
-//
-//        newUsers.forEach((x)->{
-//            if(!users.contains(x)) users.add(x);
-//        });
-//
-//        experimentRepository.save(tbExperiment);
-//    }
-//
-//    public void removeUsers(TbExperiment tbExperiment, List<TbUser> newUsers){
-//        List<TbUser> users = tbExperiment.getUserList();
-//
-//        newUsers.forEach((x)->{
-//            if(!users.contains(x)) users.remove(x);
-//        });
-//
-//        experimentRepository.save(tbExperiment);
-//    }
+    public void addUserList(TbExperiment tbExperiment, List<TbUser> newUsers){
+        List<TbUser> users = tbExperiment.getUserList();
+
+        newUsers.forEach((x)->{
+            if(!users.contains(x)) users.add(x);
+        });
+
+        experimentRepository.save(tbExperiment);
+    }
+
+    public void removeUsers(TbExperiment tbExperiment, List<TbUser> newUsers){
+        List<TbUser> users = tbExperiment.getUserList();
+
+        newUsers.forEach((x)->{
+            if(!users.contains(x)) users.remove(x);
+        });
+
+        experimentRepository.save(tbExperiment);
+    }
 
     public void addExperiment(TbExperiment tbExperiment){
         experimentRepository.save(tbExperiment);

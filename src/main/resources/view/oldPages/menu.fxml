@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,16 +14,23 @@
   <children>
       <HBox prefHeight="27.0" prefWidth="500.0">
          <children>
-            <Button id="buttonMain" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Главная" />
-            <Button id="buttonListExperiments" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Эксперименты" />
-            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Объекты БД" textFill="WHITE" />
-            <Button id="buttonListUsers" blendMode="MULTIPLY" maxHeight="30.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Пользователи" textFill="WHITE" />
+            <Button id="buttonMain" blendMode="MULTIPLY" maxHeight="34.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" styleClass="menu" text="Главная" />
+            <Button id="buttonListExperiments" blendMode="MULTIPLY" maxHeight="34.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" styleClass="menu" text="Эксперименты" />
+            <Button id="buttonListExperimentSubjects" blendMode="MULTIPLY" maxHeight="34.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" styleClass="menu" text="Объекты БД" textFill="WHITE" />
+            <Button id="buttonListUsers" blendMode="MULTIPLY" maxHeight="37.0" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="150.0" styleClass="menu" text="Пользователи" textFill="WHITE" />
             <HBox blendMode="MULTIPLY" minWidth="130.0" prefHeight="25.0" prefWidth="1000.0" styleClass="menu">
                <children>
                   <Button id="buttonSignIn" mnemonicParsing="false" text="Выйти">
                      <font>
                         <Font size="10.0" />
                      </font>
+                     <graphic>
+                        <ImageView nodeOrientation="INHERIT">
+                           <image>
+                              <Image url="@../icons/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children></HBox>
          </children>

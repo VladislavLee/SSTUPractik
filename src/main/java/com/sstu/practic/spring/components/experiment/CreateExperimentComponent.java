@@ -96,6 +96,8 @@ public class CreateExperimentComponent extends FxComponent {
     private byte[] byteProtocol2;
     private byte[] byteProtocol3;
 
+    private MultipleSelectionModel<TbUser> usersSelectionModel;
+
 
     @HandleEvent(nodeName = "buttonCreateExperiment")
     public EventPair eventHandler() {
@@ -137,7 +139,7 @@ public class CreateExperimentComponent extends FxComponent {
                     .vcProtocol2(byteProtocol2)
                     .vcProtocol3(byteProtocol3)
                     .idUser(securityContext.getUser().getIdUser())
-//                    .userList(usersSelectionModel.getSelectedItems())
+                    .userList(usersSelectionModel.getSelectedItems())
                     .build());
 
             stage.setScene(listExperimentComponent.getScene());
@@ -330,19 +332,19 @@ public class CreateExperimentComponent extends FxComponent {
         checkedIsEmptyList(fieldNameList4, choiceBox4);
 
 
-//        ListView userGroup = (ListView) scene.lookup("#userGroup");
-//        ObservableList<TbUser> users = getUserList();
-//        userGroup.setItems(users);
-//
-//        usersSelectionModel = userGroup.getSelectionModel();
-//        usersSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
-//
-//        usersSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
-//            @Override
-//            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-//
-//            }
-//        });
+        ListView userGroup = (ListView) scene.lookup("#userGroup");
+        ObservableList<TbUser> users = getUserList();
+        userGroup.setItems(users);
+
+        usersSelectionModel = userGroup.getSelectionModel();
+        usersSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+        usersSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+            }
+        });
 
     }
 

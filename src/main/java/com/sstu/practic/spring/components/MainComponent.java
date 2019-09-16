@@ -13,6 +13,7 @@ import com.sstu.practic.spring.components.equipment.CreateEquipmentComponent;
 import com.sstu.practic.spring.components.equipment.ListEquipmentsComponent;
 import com.sstu.practic.spring.components.experiment.CreateExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListExperimentComponent;
+import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experiment.ListMyExperimentForUserComponent;
 import com.sstu.practic.spring.components.experimentSubject.CreateExperimentSubjectComponent;
 import com.sstu.practic.spring.components.experimentSubject.EditExperimentSubjectComponent;
@@ -91,7 +92,7 @@ public class MainComponent extends FxComponent {
     @Autowired
     private ListExperimentComponent listExperimentComponent;
     @Autowired
-    private ListMyExperimentForUserComponent listMyExperimentForUserComponent;
+    private ListMyExperimentComponent listMyExperimentComponent;
 
     @Autowired
     private SecurityContext securityContext;
@@ -161,8 +162,8 @@ public class MainComponent extends FxComponent {
             if(securityContext.getUser().getVcRole() == Role.ADMIN){
                 stage.setScene(listExperimentComponent.getScene());
                 stage.show();
-            } else {
-                stage.setScene(listMyExperimentForUserComponent.getScene());
+            } else{
+                stage.setScene(listMyExperimentComponent.getScene());
                 stage.show();
             }
 

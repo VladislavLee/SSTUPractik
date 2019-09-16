@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
+@Transactional
 @Entity
 @Data
 @Builder
@@ -48,8 +49,8 @@ public class TbExperiment {
 
     private String vcNameProtocol3;
 
-//    @ManyToMany
-//    private List<TbUser> userList;
+    @ManyToMany
+    private List<TbUser> userList;
 
     @Lob
     @Column(columnDefinition="BLOB")

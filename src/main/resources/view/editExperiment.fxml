@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -14,8 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ListView?>
-<VBox prefHeight="706.0" prefWidth="800.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="706.0" prefWidth="800.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <HBox prefHeight="36.0" prefWidth="732.0">
          <children>
@@ -29,7 +29,7 @@
             <Button id="buttonExperimentDesign" blendMode="MULTIPLY" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="menu" text="Планы экспериментов" />
          </children>
       </HBox>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="656.0" prefWidth="796.0">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="836.0" prefWidth="801.0">
       <children>
             <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-1.0" layoutY="-13.0" minHeight="50.0" minWidth="5.0" prefHeight="401.0" prefWidth="755.0" text="Редактирование эксперимента" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-13.0">
                <font>
@@ -39,9 +39,9 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <AnchorPane layoutX="-5.0" layoutY="-49.0" prefHeight="731.0" prefWidth="807.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="-49.0">
+            <AnchorPane layoutX="1.0" layoutY="-31.0" prefHeight="813.0" prefWidth="800.0" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-31.0">
                <children>
-                  <AnchorPane fx:id="type" layoutX="101.0" layoutY="55.0" prefHeight="700.0" prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="426.0" AnchorPane.topAnchor="55.0">
+                  <AnchorPane fx:id="type" layoutX="68.0" layoutY="55.0" prefHeight="595.0" prefWidth="314.0" AnchorPane.bottomAnchor="163.0" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="429.0" AnchorPane.topAnchor="55.0">
                      <children>
                         <Label contentDisplay="CENTER" layoutY="29.0" prefHeight="30.0" prefWidth="252.0" text="Тип эксперимента:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
                            <font>
@@ -103,7 +103,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label contentDisplay="CENTER" layoutY="526.0" prefHeight="30.0" prefWidth="280.0" text="Протокол видеомониторинга:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="526.0">
+                        <Label contentDisplay="CENTER" layoutX="-1.0" layoutY="526.0" prefHeight="30.0" prefWidth="281.0" text="Протокол видеомониторинга:" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="526.0">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -113,14 +113,9 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-<!--                        <Label contentDisplay="CENTER" layoutX="1.0" layoutY="608.0" prefHeight="60.0" prefWidth="280.0" text="Выбор пользователей&#10;для общего доступа">-->
-<!--                           <font>-->
-<!--                              <Font size="20.0" />-->
-<!--                           </font>-->
-<!--                        </Label>-->
                      </children>
                   </AnchorPane>
-                  <TextArea id="experimentComments" fx:id="experimentComment" layoutX="398.0" layoutY="625.0" prefHeight="46.0" prefWidth="271.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="625.0">
+                  <TextArea id="experimentComments" fx:id="experimentComment" layoutX="398.0" layoutY="625.0" prefHeight="15.0" prefWidth="269.0" promptText="Дополнительная информация" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="144.0" AnchorPane.topAnchor="625.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -146,13 +141,24 @@
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>
                   </Slider>
-<!--                  <ListView id="userGroup" layoutX="398.0" layoutY="615.0" prefHeight="60.0" prefWidth="271.0" />-->
+                  <ListView id="userGroup" layoutX="396.0" layoutY="737.0" prefHeight="46.0" prefWidth="275.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="737.0" />
+                  <Label layoutX="68.0" layoutY="723.0" prefHeight="60.0" prefWidth="294.0" text="Добавить участников группы:" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="723.0">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="68.0" layoutY="671.0" prefHeight="45.0" prefWidth="294.0" text="Список участников группы:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox layoutX="398.0" layoutY="682.0" prefHeight="27.0" prefWidth="275.0" />
                </children>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </AnchorPane>
-            <Button id="buttonEditExperiment" fx:id="buttonEditExperiment" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="171.0" layoutY="356.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Редактировать" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="630.0">
+            <Button id="buttonEditExperiment" fx:id="buttonEditExperiment" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="300.0" layoutY="790.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Редактировать" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="790.0">
                <font>
                   <Font size="15.0" />
                </font>

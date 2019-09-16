@@ -146,7 +146,7 @@
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>
                   </Slider>
-                  <ListView id="userGroup"  layoutX="398.0" layoutY="615.0" prefHeight="60.0" prefWidth="271.0" />
+                  <ListView id="userGroup" layoutX="398.0" layoutY="615.0" prefHeight="60.0" prefWidth="271.0" />
                   <Button id="buttonCreateExperiment" fx:id="buttonCreateExperiment" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="300.0" layoutY="703.0" maxWidth="400.0" minWidth="200.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="351.0" text="Сохранить" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="703.0">
                      <font>
                         <Font size="15.0" />

@@ -78,20 +78,16 @@ public class ListUserComponent extends FxComponent {
     public Scene getScene() {
         TableView tableView = (TableView) scene.lookup("#tableUsers");
 
-        TableColumn<TbUser, String> login
-                = new TableColumn<TbUser, String>("Login");
-        TableColumn<TbUser, String> password
-                = new TableColumn<TbUser, String>("Password");
         TableColumn<TbUser, String> userFirstName
-                = new TableColumn<TbUser, String>("FirstName");
+                = new TableColumn<TbUser, String>("Имя");
         TableColumn<TbUser, String> userSecondName
-                = new TableColumn<TbUser, String>("SecondName ");
+                = new TableColumn<TbUser, String>("Фамилия ");
         TableColumn<TbUser, String> userLastName
-                = new TableColumn<TbUser, String>("LastName ");
+                = new TableColumn<TbUser, String>("Отчество ");
         TableColumn<TbUser, String> role
-                = new TableColumn<TbUser, String>("role ");
+                = new TableColumn<TbUser, String>("Роль");
         TableColumn<TbUser, String> userComments
-                = new TableColumn<TbUser, String>("Comments ");
+                = new TableColumn<TbUser, String>("Комментарий");
         TableColumn actionUpdate =
                 new TableColumn<>("Обновить");
         TableColumn actionDelete =
@@ -100,8 +96,7 @@ public class ListUserComponent extends FxComponent {
         actionUpdate.setSortable(false);
         actionDelete.setSortable(false);
 
-        login.setCellValueFactory(new PropertyValueFactory<>("vcLogin"));
-        password.setCellValueFactory(new PropertyValueFactory<>("vcPassword"));
+
         userFirstName.setCellValueFactory(new PropertyValueFactory<>("vcFirstName"));
         userSecondName.setCellValueFactory(new PropertyValueFactory<>("vcSecondName"));
         userLastName.setCellValueFactory(new PropertyValueFactory<>("vcLastName"));
@@ -207,7 +202,7 @@ public class ListUserComponent extends FxComponent {
 
 
         if(tableView.getColumns().isEmpty()) {
-            tableView.getColumns().addAll(login, password, userFirstName, userSecondName, userLastName,
+            tableView.getColumns().addAll(userFirstName, userSecondName, userLastName,
                     role, userComments, actionUpdate, actionDelete);
         }
 
@@ -223,7 +218,6 @@ public class ListUserComponent extends FxComponent {
         ObservableList<TbUser> list = FXCollections.observableArrayList(users);
         return list;
     }
-
 
     @HandleEvent(nodeName = "editUserByUser")
     public EventPair editUserByUser() {

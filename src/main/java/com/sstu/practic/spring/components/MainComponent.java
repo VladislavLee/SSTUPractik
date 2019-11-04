@@ -20,11 +20,14 @@ import com.sstu.practic.spring.components.experimentSubject.EditExperimentSubjec
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.experimentType.CreateExperimentTypeComponent;
 import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
+import com.sstu.practic.spring.components.group.ListGroupComponent;
 import com.sstu.practic.spring.components.mood.CreateMoodComponent;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.CreateProcessingMethodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
+import com.sstu.practic.spring.components.user.EditUserComponent;
 import com.sstu.practic.spring.components.user.ListUserComponent;
+import com.sstu.practic.spring.data.model.TbUser;
 import com.sstu.practic.spring.services.security.LoginService;
 import com.sstu.practic.spring.services.security.SecurityContext;
 import com.sstu.practic.spring.services.security.entites.Role;
@@ -93,7 +96,10 @@ public class MainComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private ListMyExperimentComponent listMyExperimentComponent;
-
+    @Autowired
+    private EditUserComponent editUserComponent;
+    @Autowired
+    private ListGroupComponent listGroupComponent;
     @Autowired
     private SecurityContext securityContext;
 
@@ -104,9 +110,15 @@ public class MainComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-
-            stage.setScene(listUserComponent.getScene());
-            stage.show();
+            if(securityContext.getUser().getVcRole()==Role.ADMIN){
+                stage.setScene(listUserComponent.getScene());
+                stage.show();
+            } else {
+                TbUser tbUser = securityContext.getUser();
+                editUserComponent.setTextField(tbUser);
+                stage.setScene(editUserComponent.getScene(tbUser));
+                stage.show();
+            }
         };
 
         pair.setEventHandler(eventHandler);
@@ -159,8 +171,14 @@ public class MainComponent extends FxComponent {
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
+            TbUser tbUser = securityContext.getUser();
+
+            editUserComponent.setTextField(tbUser);
+
+
+
             if(securityContext.getUser().getVcRole() == Role.ADMIN){
-                stage.setScene(listExperimentComponent.getScene());
+                stage.setScene(editUserComponent.getScene(tbUser));
                 stage.show();
             } else{
                 stage.setScene(listMyExperimentComponent.getScene());
@@ -192,5 +210,24 @@ public class MainComponent extends FxComponent {
 
         return pair;
     }
+
+    @HandleEvent(nodeName = "buttonGroup")
+    public EventPair transitionToGroup(){
+        EventPair pair = new EventPair();
+
+        EventHandler eventHandler = (x) -> {
+            Stage stage = stageHolder.getStage();
+
+            stage.setScene(listGroupComponent.getScene());
+            stage.show();
+        };
+
+        pair.setEventHandler(eventHandler);
+        pair.setEventType(MouseEvent.MOUSE_CLICKED);
+
+        return pair;
+    }
+
+
 }
 

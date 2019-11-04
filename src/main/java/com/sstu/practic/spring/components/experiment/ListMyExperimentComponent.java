@@ -492,7 +492,7 @@ public class ListMyExperimentComponent extends FxComponent {
     }
 
     private ObservableList<TbExperiment> getList(Integer id) {
-        List<TbExperiment> experiments = myExperimentService.getMyExperiment(id);
+        List<TbExperiment> experiments = myExperimentService.getMyExperiment();
         ObservableList<TbExperiment> list = FXCollections.observableArrayList(experiments);
         return list;
     }

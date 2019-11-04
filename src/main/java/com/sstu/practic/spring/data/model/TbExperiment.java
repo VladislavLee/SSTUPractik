@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+
 @Transactional
 @Entity
 @Data
@@ -50,7 +52,7 @@ public class TbExperiment {
     private String vcNameProtocol3;
 
     @ManyToMany
-    private List<TbUser> userList;
+    private List<TbGroup> groupList;
 
     @Lob
     @Column(columnDefinition="BLOB")
@@ -69,4 +71,17 @@ public class TbExperiment {
     private byte[] vcProtocol3;
 
     private Integer idUser;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TbExperiment that = (TbExperiment) o;
+        return Objects.equals(idExperiment, that.idExperiment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idExperiment);
+    }
 }

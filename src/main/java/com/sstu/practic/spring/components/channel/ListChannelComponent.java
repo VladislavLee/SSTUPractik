@@ -13,8 +13,10 @@ import com.sstu.practic.spring.components.experiment.ListMyExperimentComponent;
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.ListProcessingMethodsComponents;
+import com.sstu.practic.spring.components.user.EditUserComponent;
 import com.sstu.practic.spring.components.user.ListUserComponent;
 import com.sstu.practic.spring.data.model.TbChannels;
+import com.sstu.practic.spring.data.model.TbUser;
 import com.sstu.practic.spring.services.ChannelService;
 import com.sstu.practic.spring.services.security.SecurityContext;
 import com.sstu.practic.spring.services.security.entites.Role;
@@ -67,6 +69,8 @@ public class ListChannelComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private ListMyExperimentComponent listMyExperimentComponent;
+    @Autowired
+    private EditUserComponent editUserComponent;
 
     @Override
     public Scene getScene() {
@@ -278,19 +282,23 @@ public class ListChannelComponent extends FxComponent {
     }
 
 
-
     @HandleEvent(nodeName = "buttonListUsers")
-    public EventPair transitionToUsers(){
+    public EventPair transitionToUsers() {
         EventPair pair = new EventPair();
 
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
-
-            stage.setScene(listUserComponent.getScene());
-            stage.show();
+            if (securityContext.getUser().getVcRole() == Role.ADMIN) {
+                stage.setScene(listUserComponent.getScene());
+                stage.show();
+            } else {
+                TbUser tbUser = securityContext.getUser();
+                editUserComponent.setTextField(tbUser);
+                stage.setScene(editUserComponent.getScene(tbUser));
+                stage.show();
+            }
         };
-
 
         pair.setEventHandler(eventHandler);
         pair.setEventType(MouseEvent.MOUSE_CLICKED);

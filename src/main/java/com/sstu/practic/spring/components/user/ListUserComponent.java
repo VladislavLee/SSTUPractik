@@ -71,6 +71,7 @@ public class ListUserComponent extends FxComponent {
     @Autowired
     private ListMyExperimentComponent listMyExperimentForUserComponent;
 
+
     private ObservableList<TbUser> userData = FXCollections.observableArrayList();
 
 
@@ -330,9 +331,14 @@ public class ListUserComponent extends FxComponent {
         EventHandler eventHandler = (x) -> {
             Stage stage = stageHolder.getStage();
 
+            if(securityContext.getUser().getVcRole() ==Role.ADMIN){
+                stage.setScene(listUserComponent.getScene());
+                stage.show();
+            } else {
+                stage.setScene(editUserComponent.getScene());
+                stage.show();
+            }
 
-            stage.setScene(listUserComponent.getScene());
-            stage.show();
         };
 
 

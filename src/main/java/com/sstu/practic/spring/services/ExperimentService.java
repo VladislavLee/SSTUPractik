@@ -23,25 +23,25 @@ public class ExperimentService {
     private FavoriteExperimentService favoriteExperimentService;
 
 
-    public void addUserList(TbExperiment tbExperiment, List<TbUser> newUsers){
-        List<TbUser> users = tbExperiment.getUserList();
-
-        newUsers.forEach((x)->{
-            if(!users.contains(x)) users.add(x);
-        });
-
-        experimentRepository.save(tbExperiment);
-    }
-
-    public void removeUsers(TbExperiment tbExperiment, List<TbUser> newUsers){
-        List<TbUser> users = tbExperiment.getUserList();
-
-        newUsers.forEach((x)->{
-            if(!users.contains(x)) users.remove(x);
-        });
-
-        experimentRepository.save(tbExperiment);
-    }
+//    public void addUserList(TbExperiment tbExperiment, List<TbUser> newUsers){
+//        List<TbUser> users = tbExperiment.getUserList();
+//
+//        newUsers.forEach((x)->{
+//            if(!users.contains(x)) users.add(x);
+//        });
+//
+//        experimentRepository.save(tbExperiment);
+//    }
+//
+//    public void removeUsers(TbExperiment tbExperiment, List<TbUser> newUsers){
+//        List<TbUser> users = tbExperiment.getUserList();
+//
+//        newUsers.forEach((x)->{
+//            if(!users.contains(x)) users.remove(x);
+//        });
+//
+//        experimentRepository.save(tbExperiment);
+//    }
 
     public void addExperiment(TbExperiment tbExperiment){
         experimentRepository.save(tbExperiment);

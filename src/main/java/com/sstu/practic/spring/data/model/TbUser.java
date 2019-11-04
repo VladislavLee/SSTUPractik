@@ -38,10 +38,10 @@ public class TbUser {
 
     private String vcComments;
 
-    @Override
-    public String toString() {
-        return vcFirstName + " " + vcLastName;
-    }
+//    @Override
+//    public String toString() {
+//        return vcFirstName + " " + vcLastName;
+//    }
 
     @Override
     public boolean equals(Object o) {

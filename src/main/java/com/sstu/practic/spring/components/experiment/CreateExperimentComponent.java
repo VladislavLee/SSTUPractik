@@ -24,10 +24,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,8 @@ public class CreateExperimentComponent extends FxComponent {
     private ListExperimentComponent listExperimentComponent;
     @Autowired
     private MoodService moodService;
+    @Autowired
+    private GroupService groupService;
 
     private String nameAgreement;
     private String nameProtocol1;
@@ -96,7 +100,7 @@ public class CreateExperimentComponent extends FxComponent {
     private byte[] byteProtocol2;
     private byte[] byteProtocol3;
 
-    private MultipleSelectionModel<TbUser> usersSelectionModel;
+    private MultipleSelectionModel<TbGroup> groupSelectionModel;
 
 
     @HandleEvent(nodeName = "buttonCreateExperiment")
@@ -139,7 +143,7 @@ public class CreateExperimentComponent extends FxComponent {
                     .vcProtocol2(byteProtocol2)
                     .vcProtocol3(byteProtocol3)
                     .idUser(securityContext.getUser().getIdUser())
-                    .userList(usersSelectionModel.getSelectedItems())
+                    .groupList(groupSelectionModel.getSelectedItems())
                     .build());
 
             stage.setScene(listExperimentComponent.getScene());
@@ -302,15 +306,16 @@ public class CreateExperimentComponent extends FxComponent {
         return list;
     }
 
-    private ObservableList<TbUser> getUserList() {
-        List<TbUser> users = userService.getAllUsers();
-        ObservableList<TbUser> list = FXCollections.observableArrayList(users);
+    private ObservableList<TbGroup> getGroupList(Integer id) {
+        List<TbGroup> groups = groupService.getMyGroup(id);
+        ObservableList<TbGroup> list = FXCollections.observableArrayList(groups);
         return list;
     }
 
 
-    @PostConstruct
-    public void init(){
+
+    @Override
+    public Scene getScene(){
         ChoiceBox choiceBox =(ChoiceBox) scene.lookup("#experimentType");
         ObservableList<TbExperimentType> experimentTypeList = getExperimentTypeList();
         List<String> fieldNameList = experimentTypeList.stream().map(urEntity -> urEntity.getVcName()).collect(Collectors.toList());
@@ -333,21 +338,25 @@ public class CreateExperimentComponent extends FxComponent {
 
 
         ListView userGroup = (ListView) scene.lookup("#userGroup");
-        ObservableList<TbUser> users = getUserList();
-        userGroup.setItems(users);
+        ObservableList<TbGroup> groups = getGroupList(securityContext.getUser().getIdUser());
+        userGroup.setItems(groups);
 
-        usersSelectionModel = userGroup.getSelectionModel();
-        usersSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+        groupSelectionModel = userGroup.getSelectionModel();
+        groupSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
 
-        usersSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
+
+        groupSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 
             }
         });
 
+        Pane root = (Pane) this.scene.getRoot();
+        root.setPadding(new Insets(10));
+        this.scene.setRoot(root);
+        return this.scene;
     }
-
 
     private Node checkedIsEmptyList(List list, ChoiceBox choiceBox){
         List<String> listEmpty= new ArrayList<>();

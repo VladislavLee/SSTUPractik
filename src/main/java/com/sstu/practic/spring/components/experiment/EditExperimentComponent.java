@@ -90,6 +90,8 @@ public class EditExperimentComponent extends FxComponent {
     private MainComponent mainComponent;
     @Autowired
     private UserService userService;
+    @Autowired
+    private GroupService groupService;
 
 
     private byte[] byteAgreement;
@@ -98,12 +100,28 @@ public class EditExperimentComponent extends FxComponent {
     private byte[] byteProtocol3;
 
 
-    private MultipleSelectionModel<TbUser> userSelectionModel;
+    private MultipleSelectionModel<TbGroup> groupMultipleSelectionModel;
 
     private TbExperiment tbExperiment;
 
     public Scene getScene(TbExperiment tbExperiment) {
         this.tbExperiment = tbExperiment;
+
+        ListView userGroup = (ListView) scene.lookup("#userGroup");
+        ObservableList<TbGroup> groups = getGroupList(securityContext.getUser().getIdUser());
+        userGroup.setItems(groups);
+
+        groupMultipleSelectionModel = userGroup.getSelectionModel();
+        groupMultipleSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+        groupMultipleSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+            }
+        });
+
+
         return scene;
     }
 
@@ -163,7 +181,7 @@ public class EditExperimentComponent extends FxComponent {
             tbExperiment.setVcProtocol2(byteProtocol2);
             tbExperiment.setVcProtocol3(byteProtocol3);
 
-            experimentService.addUserList(tbExperiment, userSelectionModel.getSelectedItems());
+//            experimentService.addUserList(tbExperiment, userSelectionModel.getSelectedItems());
 
             experimentService.updateExperiment(tbExperiment);
 
@@ -328,20 +346,27 @@ public class EditExperimentComponent extends FxComponent {
     }
 
 
-    private ObservableList<TbUser> getCurrentGroup(){
-        List<TbUser> list2 = new ArrayList<TbUser>();
-
-        ObservableList<TbUser> list3 = FXCollections.observableArrayList(list2);
-
-        try {
-            List<TbUser> users = tbExperiment.getUserList();
-            ObservableList<TbUser> list = FXCollections.observableArrayList(users);
-            list2 = list;
-            return list3;
-        } catch (NullPointerException e){
-            return list3;
-        }
+    private ObservableList<TbGroup> getGroupList(Integer id){
+        List<TbGroup> groups = groupService.getMyGroup(id);
+        ObservableList<TbGroup> list = FXCollections.observableArrayList(groups);
+        return list;
     }
+
+
+//    private ObservableList<TbUser> getCurrentGroup(){
+//        List<TbUser> list2 = new ArrayList<TbUser>();
+//
+//        ObservableList<TbUser> list3 = FXCollections.observableArrayList(list2);
+//
+//        try {
+//            List<TbUser> users = tbExperiment.getUserList();
+//            ObservableList<TbUser> list = FXCollections.observableArrayList(users);
+//            list2 = list;
+//            return list3;
+//        } catch (NullPointerException e){
+//            return list3;
+//        }
+//    }
 
 
     @PostConstruct
@@ -374,19 +399,6 @@ public class EditExperimentComponent extends FxComponent {
 //        List<String> fieldNameList5 = group.stream().map(urEntity -> urEntity.getVcFirstName()+" "+ urEntity.getVcSecondName()).collect(Collectors.toList());
 //        checkedIsEmptyList(fieldNameList5, choiceBox5);
 
-        ListView userGroup = (ListView) scene.lookup("#userGroup");
-        ObservableList<TbUser> users = getUserList();
-        userGroup.setItems(users);
-
-        userSelectionModel = userGroup.getSelectionModel();
-        userSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
-
-        userSelectionModel.selectedItemProperty().addListener(new ChangeListener(){
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-
-            }
-        });
 
     }
 

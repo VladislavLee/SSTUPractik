@@ -23,6 +23,8 @@ import com.sstu.practic.spring.components.experimentSubject.EditExperimentSubjec
 import com.sstu.practic.spring.components.experimentSubject.ListExperimentSubject;
 import com.sstu.practic.spring.components.experimentType.CreateExperimentTypeComponent;
 import com.sstu.practic.spring.components.experimentType.ListExperimentTypeComponent;
+import com.sstu.practic.spring.components.group.CreateGroupComponent;
+import com.sstu.practic.spring.components.group.ListGroupComponent;
 import com.sstu.practic.spring.components.mood.CreateMoodComponent;
 import com.sstu.practic.spring.components.mood.ListMoodComponent;
 import com.sstu.practic.spring.components.processingMethod.CreateProcessingMethodComponent;
@@ -101,6 +103,10 @@ public class LoginComponent extends FxComponent {
     private ListMyExperimentComponent listMyExperimentComponent;
     @Autowired
     private EditUserForAdminComponent editUserForAdminComponent;
+    @Autowired
+    private CreateGroupComponent createGroupComponent;
+    @Autowired
+    private ListGroupComponent listGroupComponent;
     @Override
     public Scene getScene() {
         return scene;
@@ -130,6 +136,9 @@ public class LoginComponent extends FxComponent {
 
         return pair;
     }
+
+
+
 
 
 

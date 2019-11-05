@@ -9,6 +9,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class JavaFxApplication extends Application {
+
+    public static void main(String[] args) {
+        Application.launch(Application.class, args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         ConfigurableApplicationContext context = SpringApplication.run(PracticApplication.class, new String[0]);

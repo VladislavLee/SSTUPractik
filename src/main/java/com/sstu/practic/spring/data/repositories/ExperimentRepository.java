@@ -1,19 +1,13 @@
 package com.sstu.practic.spring.data.repositories;
 
 import com.sstu.practic.spring.data.model.TbExperiment;
-import com.sstu.practic.spring.data.model.TbFavoriteExperiment;
 import com.sstu.practic.spring.data.model.TbGroup;
-import com.sstu.practic.spring.data.model.TbUser;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.Query;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
